@@ -38,7 +38,6 @@ const CreatePage = () => {
     const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // console.log(values);
     try {
       const response = await axios.post("/api/courses", values);
       router.push(`/teacher/courses/${response.data.id}`);
@@ -107,6 +106,4 @@ const CreatePage = () => {
      );
 }
  
-
-
 export default CreatePage;
