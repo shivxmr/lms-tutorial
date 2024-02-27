@@ -11,6 +11,8 @@ import { PriceForm } from "./_components/price-form";
 import { AttachmentForm } from "./_components/attachment-form";
 import { ChaptersForm } from "./_components/chapters-form";
 import { Actions } from "./_components/actions";
+import { ImageUrlForm } from "./_components/image-url-form";
+
 
 const CourseIdPage = async ({
     params
@@ -102,6 +104,7 @@ const completionText = `(${completedFields}/${totalFields})`;
               initialData={course}
               courseId={course.id}
             />
+            
             <ImageForm
               initialData={course}
               courseId={course.id}

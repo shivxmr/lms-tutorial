@@ -38,8 +38,8 @@ export const ChapterActions = ({
       }
 
       router.refresh();
-    } catch (error) {
-      console.error("Publishing error:", error);
+    } catch  {
+      // console.error("Publishing error:", error);
 
       toast.error("Something went wrong");
     } finally {
