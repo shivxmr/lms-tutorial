@@ -38,7 +38,9 @@ export const ChapterActions = ({
       }
 
       router.refresh();
-    } catch {
+    } catch (error) {
+      console.error("Publishing error:", error);
+
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
