@@ -58,7 +58,7 @@ const CourseIdPage = async ({
     const requiredFields = [
     course.title,
     course.description,
-    // course.imageUrl,
+    course.imageUrl,
     // course.price,
     course.categoryId,
     // course.chapters.some(chapter => chapter.isPublished),
