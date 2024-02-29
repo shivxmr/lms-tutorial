@@ -7,13 +7,13 @@ async function main() {
     await database.category.createMany({
       data: [
         { name: "Computer Science" },
-        { name: "IT" },
-        { name: "GenAI" },
-        { name: "ML" },
-        { name: "WebDev" },
+        { name: "Generative AI" },
+        { name: "Android Dev" },
+        { name: "Machine Learning" },
+        { name: "Web Development" },
+        { name: "Software Development" },
         { name: "Engineering" },
-        { name: "Software Dev" },
-      ]
+      ],
     });
 
     console.log("Success");

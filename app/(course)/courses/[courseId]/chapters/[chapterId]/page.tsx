@@ -7,7 +7,7 @@ import { Banner } from "@/components/banner";
 import { Separator } from "@/components/ui/separator";
 import { Preview } from "@/components/preview";
 
-import { VideoPlayer } from "./_components/video-player";
+import VideoPlayer from "./_components/video-player";
 import { CourseEnrollButton } from "./_components/course-enroll-button";
 import { CourseProgressButton } from "./_components/course-progress-button";
 
@@ -36,15 +36,15 @@ const ChapterIdPage = async ({
 		courseId: params.courseId,
 	});
 
-	console.log(
-		chapter,
-		course,
-		muxData,
-		attachments,
-		nextChapter,
-		userProgress,
-		purchase
-	);
+	// console.log(
+	// 	chapter,
+	// 	course,
+	// 	muxData,
+	// 	attachments,
+	// 	nextChapter,
+	// 	userProgress,
+	// 	purchase
+	// );
 
 	if (!chapter || !course) {
 		return redirect("/");
@@ -70,13 +70,14 @@ const ChapterIdPage = async ({
 			<div className="flex flex-col max-w-4xl mx-auto pb-20">
 				<div className="p-4">
 					<VideoPlayer
-						chapterId={params.chapterId}
-						title={chapter.title}
-						courseId={params.courseId}
-						nextChapterId={nextChapter?.id}
-						playbackId={chapter.videoUrl as any}
-						isLocked={isLocked}
-						completeOnEnd={completeOnEnd}
+						// chapterId={params.chapterId}
+						// title={chapter.title}
+						// courseId={params.courseId}
+						// nextChapterId={nextChapter?.id}
+						// playbackId={chapter.videoUrl as any}
+						// isLocked={isLocked}
+						// completeOnEnd={completeOnEnd}
+						videoUrl={chapter.videoUrl || ""}
 					/>
 				</div>
 				<div>

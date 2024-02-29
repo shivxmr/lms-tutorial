@@ -88,7 +88,7 @@ export const ImageForm = ({ initialData, courseId }: TitleFormProps) => {
 									<FormControl>
 										<Input
 											disabled={isSubmitting}
-											placeholder="e.g. 'Https://intel.png'"
+											placeholder="e.g. 'https://intel.png'"
 											{...field}
 										/>
 									</FormControl>
