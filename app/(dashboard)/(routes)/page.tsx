@@ -19,7 +19,7 @@ export default async function Dashboard() {
 		userId
 	);
 
-	console.log(completedCourses, coursesInProgress);
+	// console.log(completedCourses, coursesInProgress);
 
 	return (
 		<div className="p-6 space-y-4">
