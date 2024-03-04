@@ -10,6 +10,7 @@ import { Preview } from "@/components/preview";
 import VideoPlayer from "./_components/video-player";
 import { CourseEnrollButton } from "./_components/course-enroll-button";
 import { CourseProgressButton } from "./_components/course-progress-button";
+import { SubmissionForm } from "./_components/submission-form";
 
 const ChapterIdPage = async ({
 	params,
@@ -25,7 +26,6 @@ const ChapterIdPage = async ({
 	const {
 		chapter,
 		course,
-		muxData,
 		attachments,
 		nextChapter,
 		userProgress,
@@ -35,16 +35,6 @@ const ChapterIdPage = async ({
 		chapterId: params.chapterId,
 		courseId: params.courseId,
 	});
-
-	// console.log(
-	// 	chapter,
-	// 	course,
-	// 	muxData,
-	// 	attachments,
-	// 	nextChapter,
-	// 	userProgress,
-	// 	purchase
-	// );
 
 	if (!chapter || !course) {
 		return redirect("/");
@@ -101,6 +91,10 @@ const ChapterIdPage = async ({
 					<div>
 						<Preview value={chapter.description!} />
 					</div>
+					<div className="">
+						<SubmissionForm courseId={params.courseId} initialData={{ title: chapter.title }} />
+					</div>
+					<Separator />
 					{!!attachments.length && (
 						<>
 							<Separator />

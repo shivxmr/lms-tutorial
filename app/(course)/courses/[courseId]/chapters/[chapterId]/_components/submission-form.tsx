@@ -1,10 +1,11 @@
-// D:\Coding\Intel\lms-tutorial\app\(dashboard)\(routes)\teacher\courses\[courseId]\_components\image-url-form.tsx
+"use client";
+
 import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Pencil } from "lucide-react";
-import { useEffect, useState } from "react"; // Use useEffect
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -18,25 +19,24 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-interface ImageUrlFormProps {
+interface SubmissionFormProps {
   initialData: {
-    imageUrl: string | null;
+    title: string;
   };
   courseId: string;
-}
+};
 
 const formSchema = z.object({
-  imageUrl: z.string().url({
-    message: "Please enter a valid URL",
+  title: z.string().min(1, {
+    message: "Submission is required",
   }),
 });
 
-export const ImageUrlForm = ({
+export const SubmissionForm = ({
   initialData,
   courseId
-}: ImageUrlFormProps) => {
+}: SubmissionFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [imageUrl, setImageUrl] = useState(""); // Initialize with empty string
 
   const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -44,19 +44,15 @@ export const ImageUrlForm = ({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { imageUrl: initialData.imageUrl || "" }, // Provide default value
+    defaultValues: initialData,
   });
 
   const { isSubmitting, isValid } = form.formState;
 
-  useEffect(() => {
-    setImageUrl(initialData.imageUrl || ""); // Set imageUrl in useEffect
-  }, [initialData.imageUrl]);
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Image URL updated");
+      toast.success("Course updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -67,21 +63,21 @@ export const ImageUrlForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Image URL
+        Submit your work here
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit Image URL
+              Edit
             </>
           )}
         </Button>
       </div>
       {!isEditing && (
         <p className="text-sm mt-2">
-          {imageUrl || "No image URL provided"}
+          {initialData.title}
         </p>
       )}
       {isEditing && (
@@ -92,15 +88,14 @@ export const ImageUrlForm = ({
           >
             <FormField
               control={form.control}
-              name="imageUrl"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="Enter image URL"
+                      placeholder="e.g. 'Generative AI'"
                       {...field}
-                      onChange={(e) => setImageUrl(e.target.value)} // Update imageUrl state
                     />
                   </FormControl>
                   <FormMessage />
