@@ -45,12 +45,12 @@ export const CourseSidebarItem = ({
         <Icon
           size={22}
           className={cn(
-            "text-slate-500",
+            "text-slate-500 fixed",
             isActive && "text-slate-700",
             isCompleted && "text-emerald-700"
           )}
         />
-        {label}
+        <span className="ml-8 text-left">{label}</span>
       </div>
       <div className={cn(
         "ml-auto opacity-0 border-2 border-slate-700 h-full transition-all",

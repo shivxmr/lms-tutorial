@@ -74,7 +74,7 @@ export const ImageForm = ({ initialData, courseId }: TitleFormProps) => {
 					)}
 				</Button>
 			</div>
-			{!isEditing && <p className="text-sm mt-2">{initialData.imageUrl}</p>}
+			{!isEditing && <p className="text-sm mt-2 truncate">{initialData.imageUrl}</p>}
 			{isEditing && (
 				<Form {...form}>
 					<form
