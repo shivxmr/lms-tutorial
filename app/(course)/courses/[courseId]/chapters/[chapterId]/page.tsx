@@ -89,7 +89,7 @@ const ChapterIdPage = async ({
 							courseId={params.courseId}
 							chapterId={params.chapterId}
 							initialData={{
-								submissionLink: chapter.submissionLink || "",
+								submissionLink: "",
 							}}
 							nextChapterId={nextChapter?.id}
 							isCompleted={!!userProgress?.isCompleted}
