@@ -89,7 +89,7 @@ const ChapterIdPage = async ({
 						<SubmissionForm
 							courseId={params.courseId}
 							chapterId={params.chapterId}
-							initialData={{ submissionLink: chapter.submissionLink || "" }}
+							initialData={{ submissionLink: "" }}
 						/>
 					</div>
 					<Separator />
