@@ -34,3 +34,21 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+*Backup database inside the mysql container:*
+`mysqldump -u root -p --all-databases > all_databases.sql`
+
+*Now backup your data to your local repository:*
+`sudo docker cp 1f55de9398e2:/all_databases.sql /home/staging/lms-tutorial/db/ ` The same can be used opposite to copying th dump to the mysql database bash
+
+*To backup the code*
+`mysql  database_name < file.sql`
+
+In most cases you’ll need to create a database to import into. If the database already exists, first you need to delete it.
+
+In the following example the first command will create a database named database_name and then it will import the dump database_name.sql into it:
+`needs to be done in the bash`
+
+`mysql -u root -p -e "create database database_name";`
+`mysql -u root -p database_name < database_name.sql`

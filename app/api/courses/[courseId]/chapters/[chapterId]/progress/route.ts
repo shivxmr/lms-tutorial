@@ -4,37 +4,48 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 export async function PUT(
-  req: Request,
-  { params }: { params: { courseId: string; chapterId: string } }
+	req: Request,
+	{
+		params,
+	}: {
+		params: {
+			courseId: string;
+			chapterId: string;
+		};
+	}
 ) {
-  try {
-    const { userId } = auth();
-    const { isCompleted } = await req.json();
+	try {
+		const { userId } = auth();
+		const { isCompleted, submissionLink } = await req.json();
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    } 
+    console.log(isCompleted, submissionLink);
 
-    const userProgress = await db.userProgress.upsert({
-      where: {
-        userId_chapterId: {
-          userId,
-          chapterId: params.chapterId,
-        }
-      },
-      update: {
-        isCompleted
-      },
-      create: {
-        userId,
-        chapterId: params.chapterId,
-        isCompleted,
-      }
-    })
+		if (!userId) {
+			return new NextResponse("Unauthorized", { status: 401 });
+		}
 
-    return NextResponse.json(userProgress);
-  } catch (error) {
-    console.log("[CHAPTER_ID_PROGRESS]", error);
-    return new NextResponse("Internal Error", { status: 500 });
-  }
+		const userProgress = await db.userProgress.upsert({
+			where: {
+				userId_chapterId: {
+					userId,
+					chapterId: params.chapterId,
+				},
+			},
+			update: {
+				isCompleted,
+				submissionLink,
+			},
+			create: {
+				userId,
+				chapterId: params.chapterId,
+				submissionLink,
+				isCompleted,
+			},
+		});
+
+		return NextResponse.json(userProgress);
+	} catch (error) {
+		console.log("[CHAPTER_ID_PROGRESS]", error);
+		return new NextResponse("Internal Error", { status: 500 });
+	}
 }

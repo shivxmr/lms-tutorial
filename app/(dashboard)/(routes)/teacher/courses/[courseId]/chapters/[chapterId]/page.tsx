@@ -1,7 +1,13 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
+import {
+	ArrowLeft,
+	Eye,
+	LayoutDashboard,
+	TicketCheckIcon,
+	Video,
+} from "lucide-react";
 
 import { db } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";
@@ -12,6 +18,7 @@ import { ChapterDescriptionForm } from "./_components/chapter-description-form";
 import { ChapterAccessForm } from "./_components/chapter-access-form";
 import { ChaptervideoForm } from "./_components/chapter-video-form";
 import { ChapterActions } from "./_components/chapter-actions";
+import { ChapterSubmissionForm } from "./_components/chapter-submission-form";
 
 const ChapterIdPage = async ({
 	params,
@@ -35,8 +42,9 @@ const ChapterIdPage = async ({
 		return redirect("/");
 	}
 
-	const requiredFields = [chapter.title, 
-		// chapter.description, 
+	const requiredFields = [
+		chapter.title,
+		// chapter.description,
 		// chapter.videoUrl
 	];
 
@@ -120,6 +128,17 @@ const ChapterIdPage = async ({
 							chapterId={params.chapterId}
 							courseId={params.courseId}
 						/>
+						{/* <div className="mt-6">
+							<div className="flex items-center gap-x-2">
+								<IconBadge icon={TicketCheckIcon} />
+								<h2 className="text-xl">Submission</h2>
+							</div>
+							<ChapterSubmissionForm
+								initialData={chapter}
+								courseId={params.courseId}
+								chapterId={params.chapterId}
+							/>
+						</div> */}
 					</div>
 				</div>
 			</div>
