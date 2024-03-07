@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useConfettiStore } from "@/hooks/use-confetti-store";
 
 interface SubmissionFormProps {
 	initialData: {
@@ -25,6 +26,8 @@ interface SubmissionFormProps {
 	};
 	courseId: string;
 	chapterId: string;
+	isCompleted?: boolean;
+	nextChapterId?: string;
 }
 
 const formSchema = z.object({
@@ -37,9 +40,11 @@ export const SubmissionForm = ({
 	initialData,
 	courseId,
 	chapterId,
+	isCompleted,
+	nextChapterId,
 }: SubmissionFormProps) => {
 	const [isEditing, setIsEditing] = useState(false);
-
+	const confetti = useConfettiStore();
 	const toggleEdit = () => setIsEditing((current) => !current);
 
 	const router = useRouter();
@@ -52,15 +57,25 @@ export const SubmissionForm = ({
 	const { isSubmitting, isValid } = form.formState;
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+		console.log(values);
 		try {
 			await axios.put(
 				`/api/courses/${courseId}/chapters/${chapterId}/progress`,
-				values
+				{ ...values, isCompleted: !isCompleted }
 			);
-			toast.success("Course updated");
+			if (!isCompleted && !nextChapterId) {
+				confetti.onOpen();
+			}
+
+			if (!isCompleted && nextChapterId) {
+				router.push(`/courses/${courseId}/chapters/${nextChapterId}`);
+			}
+
+			toast.success("Progress updated");
 			toggleEdit();
 			router.refresh();
+
+			toast.success("Progress updated");
 		} catch {
 			toast.error("Something went wrong");
 		}
@@ -102,7 +117,7 @@ export const SubmissionForm = ({
 									<FormControl>
 										<Input
 											disabled={isSubmitting}
-											placeholder="e.g. 'Generative AI'"
+											placeholder="e.g. 'http://github.com/'"
 											{...field}
 										/>
 									</FormControl>

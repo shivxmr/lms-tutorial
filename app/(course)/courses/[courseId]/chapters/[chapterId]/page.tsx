@@ -1,7 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { File } from "lucide-react";
-
 import { getChapter } from "@/actions/get-chapter";
 import { Banner } from "@/components/banner";
 import { Separator } from "@/components/ui/separator";
@@ -89,7 +88,11 @@ const ChapterIdPage = async ({
 						<SubmissionForm
 							courseId={params.courseId}
 							chapterId={params.chapterId}
-							initialData={{ submissionLink: "" }}
+							initialData={{
+								submissionLink: chapter.submissionLink || "",
+							}}
+							nextChapterId={nextChapter?.id}
+							isCompleted={!!userProgress?.isCompleted}
 						/>
 					</div>
 					<Separator />
