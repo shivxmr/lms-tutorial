@@ -52,7 +52,7 @@ export const ChapterSubmissionForm = ({
 	} = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			isSubmitable: initialData.isSubmitable,
+			isSubmitable: false,
 		},
 	});
 

@@ -6,7 +6,6 @@ import { getDashboardCourses } from "@/actions/get-dashboard-courses";
 import { CoursesList } from "@/components/courses-list";
 
 import { InfoCard } from "./_components/info-card";
-import { useState } from "react";
 
 export default async function Dashboard() {
 	const { userId } = auth();
