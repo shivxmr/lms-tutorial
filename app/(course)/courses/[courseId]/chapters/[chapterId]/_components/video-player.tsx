@@ -29,7 +29,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
                     allowFullScreen
                 ></iframe>
             ) : (
-                <p>Invalid YouTube video URL</p>
+                <p>This chapter does not have any video!</p>
             )}
         </div>
     );

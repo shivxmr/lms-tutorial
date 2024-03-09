@@ -160,7 +160,9 @@ const ChapterIdPage = async ({
 					<div className="mt-4 mb-4">
 					<Separator />
 					</div>
+					<div>
 					<embed src="/pdf/Report.pdf" type="application/pdf" width="100%" height="600px" />
+					</div>
 				</div>
 			</div>
 		</div>

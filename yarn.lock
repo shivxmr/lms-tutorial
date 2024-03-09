@@ -1638,6 +1638,11 @@ caniuse-lite@^1.0.30001578, caniuse-lite@^1.0.30001579, caniuse-lite@^1.0.300015
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001585.tgz"
   integrity sha512-yr2BWR1yLXQ8fMpdS/4ZZXpseBgE7o4g41x3a6AJOqZuOi+iE/WdJYAuZ6Y95i4Ohd2Y+9MzIWRR+uGABH4s3Q==
 
+centra@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/centra/-/centra-2.6.0.tgz"
+  integrity sha512-dgh+YleemrT8u85QL11Z6tYhegAs3MMxsaWAq/oXeAmYJ7VxL3SI9TZtnfaEvNDMAPolj25FXIb3S+HCI4wQaQ==
+
 chalk@^4.0.0, chalk@^4.1.0:
   version "4.1.2"
   resolved "https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz"
@@ -3524,7 +3529,7 @@ path-type@^4.0.0:
 
 phin@^3.5.0:
   version "3.7.0"
-  resolved "https://registry.yarnpkg.com/phin/-/phin-3.7.0.tgz#eeeff7660408515d8cf0c6252901012d4ab7153b"
+  resolved "https://registry.npmjs.org/phin/-/phin-3.7.0.tgz"
   integrity sha512-DqnVNrpYhKGBZppNKprD+UJylMeEKOZxHgPB+ZP6mGzf3uA2uox4Ep9tUm+rUc8WLIdHT3HcAE4X8fhwQA9JKg==
   dependencies:
     centra "^2.6.0"
@@ -4781,7 +4786,7 @@ yocto-queue@^0.1.0:
 
 youtube-transcript@^1.0.6:
   version "1.0.6"
-  resolved "https://registry.yarnpkg.com/youtube-transcript/-/youtube-transcript-1.0.6.tgz#8414c04380d3ef1102bd00ca3729e94c46ae7a14"
+  resolved "https://registry.npmjs.org/youtube-transcript/-/youtube-transcript-1.0.6.tgz"
   integrity sha512-k/6uxB9voj/5astl6+q+VArX/aWHhnmle8BucvUCTYTQQEOSVlBiXkrI0KD3o8A0b44MV6q0bmVNiJFIpTlcZA==
   dependencies:
     phin "^3.5.0"
