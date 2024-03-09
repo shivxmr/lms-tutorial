@@ -7,7 +7,6 @@ async function main() {
     await database.category.createMany({
       data: [
         { name: "Text Generation" },
-        { name: "Generative AI" },
         { name: "Code Generation" },
         { name: "Speech Processing" },
         { name: "Multi Modals" },

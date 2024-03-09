@@ -86,7 +86,6 @@ export const SubmissionForm = ({
 			<div className="font-medium flex items-center justify-between">
 				Submit your work here
 				<div>
-					<Button>Evaluate</Button>
 					<Button
 						onClick={toggleEdit}
 						variant="ghost">
@@ -126,6 +125,7 @@ export const SubmissionForm = ({
 							)}
 						/>
 						<div className="flex items-center gap-x-2">
+							<Button>Evaluate</Button>
 							<Button
 								disabled={!isValid || isSubmitting}
 								type="submit">
