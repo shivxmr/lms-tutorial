@@ -80,7 +80,7 @@ const ChapterIdPage = async ({
 							/>
 						)}
 					</div>
-					<Separator />
+						<Separator />
 					<div>
 						<Preview value={chapter.description!} />
 					</div>
@@ -113,6 +113,10 @@ const ChapterIdPage = async ({
 							</div>
 						</>
 					)}
+					<div className="mt-4 mb-4">
+					<Separator />
+					</div>
+					<embed src="/pdf/Report.pdf" type="application/pdf" width="100%" height="600px" />
 				</div>
 			</div>
 		</div>
