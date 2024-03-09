@@ -22,8 +22,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
         <div className="video-container">
             {embedUrl ? (
                 <iframe
-                    width="560"
-                    height="315"
+                    width="100%"
+                    height="600"
                     src={embedUrl}
                     title="YouTube Video Player"
                     allowFullScreen

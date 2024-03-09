@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs";
+import { YoutubeTranscript } from "youtube-transcript";
 import { redirect } from "next/navigation";
 import { File } from "lucide-react";
 import { getChapter } from "@/actions/get-chapter";
@@ -33,6 +34,25 @@ const ChapterIdPage = async ({
 		return redirect("/");
 	}
 
+	const getTime = (time: any) => {
+		const durationSec = time / 1000;
+
+		// Extract hours, minutes, seconds, and milliseconds
+		const hours = Math.floor(durationSec / 3600);
+		const minutes = Math.floor((durationSec % 3600) / 60);
+		const seconds = Math.floor(durationSec % 60);
+		const milliseconds = Math.floor(durationSec % 1000);
+
+		// Format the time as HH:MM:SS.MMM
+		const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+			.toString()
+			.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds
+			.toString()
+			.padStart(3, "0")}`;
+
+		return formattedTime;
+	};
+
 	const isLocked = !chapter.isFree && !purchase;
 	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
@@ -50,8 +70,10 @@ const ChapterIdPage = async ({
 					label="You need to purchase this course to watch this chapter."
 				/>
 			)} */}
-			<div className="flex flex-col max-w-4xl mx-auto pb-20">
-				<div className="p-4">
+			<div className="flex flex-col mx-auto px-10 mt-10 pb-20">
+				<div
+					className="grid grid-cols-2 gap-x-5"
+					style={{ maxHeight: "700px" }}>
 					<VideoPlayer
 						// chapterId={params.chapterId}
 						// title={chapter.title}
@@ -62,6 +84,28 @@ const ChapterIdPage = async ({
 						// completeOnEnd={completeOnEnd}
 						videoUrl={chapter.videoUrl || ""}
 					/>
+					<div
+						className="border h-full overflow-y-auto w-full"
+						style={{ maxHeight: "inherit" }}>
+						{YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
+							(res) => (
+								<>
+									{res.map((response) => (
+										<div
+											className="flex"
+											key={response.offset}>
+											<span className="text-gray-400">
+												{getTime(response?.duration + response?.offset)}
+											</span>
+											<span className=" ml-3 font-medium">
+												{response?.text}
+											</span>
+										</div>
+									))}
+								</>
+							)
+						)}
+					</div>
 				</div>
 				<div>
 					<div className="p-4 flex flex-col md:flex-row items-center justify-between">
