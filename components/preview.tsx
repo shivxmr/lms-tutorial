@@ -31,13 +31,17 @@ export const Preview = ({ value }: PreviewProps) => {
 	const handleTranslation = async () => {
 		try {
 			if (selectedLanguage) {
-				axios
-					.post("/api/translate", {
-						textData: translateValue,
-						language: selectedLanguage.value,
-					})
-					.then((res) => setTranslateValue(res?.data))
-					.catch((err) => console.log(err));
+				if (selectedLanguage.value !== "en") {
+					axios
+						.post("/api/translate", {
+							textData: translateValue,
+							language: selectedLanguage.value,
+						})
+						.then((res) => setTranslateValue(res?.data))
+						.catch((err) => console.log(err));
+				} else {
+					setTranslateValue(value);
+				}
 			}
 		} catch (error) {
 			console.error("Translation error:", error);

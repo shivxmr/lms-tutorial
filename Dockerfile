@@ -1,16 +1,20 @@
-FROM node:18
+FROM --platform=linux/amd64 node:21.5.0
 
-WORKDIR /app
+USER root
 
-COPY package.json /app/
-RUN npm install
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-COPY ./ /app/
+COPY . /usr/src/app/
+
+RUN npm install -g next
+
+RUN npm install --legacy-peer-deps
 
 RUN npx prisma generate
 
-EXPOSE 3000
-
 RUN npm run build
+
+EXPOSE 3000
 
 CMD ["sh", "-c", "npx prisma db push  && node ./scripts/seed.ts && npm run dev"]

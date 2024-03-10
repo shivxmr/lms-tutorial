@@ -132,9 +132,9 @@ const ChapterIdPage = async ({
 				</div>
 				<div>
 						<Separator />
-					<div>
+					{chapter?.description && <div>
 						<Preview value={chapter.description!} />
-					</div>
+					</div>}
 					<div className="">
 						<SubmissionForm
 							courseId={params.courseId}
