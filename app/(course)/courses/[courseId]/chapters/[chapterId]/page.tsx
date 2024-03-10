@@ -100,28 +100,35 @@ const ChapterIdPage = async ({
 						// completeOnEnd={completeOnEnd}
 						videoUrl={chapter.videoUrl || ""}
 					/>
-					<div
-						className="border h-full overflow-y-auto w-full"
-						style={{ maxHeight: "inherit" }}>
-						{YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
-							(res) => (
-								<>
-									{res.map((response) => (
-										<div
-											className="flex"
-											key={response.offset}>
-											<span className="text-gray-400">
-												{getTime(response?.duration + response?.offset)}
-											</span>
-											<span className=" ml-3 font-medium">
-												{response?.text}
-											</span>
-										</div>
-									))}
-								</>
-							)
+					{chapter.videoUrl && chapter.videoUrl.includes("youtube.com") && (
+						<div
+							className="border h-full overflow-y-auto w-full"
+							style={{ maxHeight: "inherit" }}>
+								{YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
+									(res) => (
+										<>
+											{res.map((response) => (
+												<div
+													className="flex"
+													key={response.offset}>
+													<span className="text-gray-400">
+														{getTime(response?.duration + response?.offset)}
+													</span>
+													<span className=" ml-3 font-medium">
+														{response?.text}
+													</span>
+												</div>
+											))}
+										</>
+									)
+								)}
+							</div>
 						)}
-					</div>
+					{!chapter.videoUrl || !chapter.videoUrl.includes("youtube.com") && (
+						<div>
+							Invalid or missing Youtube video URL.
+						</div>
+					)}
 				</div>
 				<div>
 						<Separator />
