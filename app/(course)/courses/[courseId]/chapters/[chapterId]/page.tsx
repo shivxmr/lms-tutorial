@@ -70,6 +70,22 @@ const ChapterIdPage = async ({
 					label="You need to purchase this course to watch this chapter."
 				/>
 			)} */}
+			<div className="p-4 flex flex-col md:flex-row items-center justify-between">
+						<h2 className="text-2xl font-semibold mb-1">{chapter.title}</h2>
+						{purchase ? (
+							<CourseProgressButton
+								chapterId={params.chapterId}
+								courseId={params.courseId}
+								nextChapterId={nextChapter?.id}
+								isCompleted={!!userProgress?.isCompleted}
+							/>
+						) : (
+							<CourseEnrollButton
+								courseId={params.courseId}
+								price={course.price!}
+							/>
+						)}
+					</div>
 			<div className="flex flex-col mx-auto px-10 mt-10 pb-20">
 				<div
 					className="grid grid-cols-2 gap-x-5"
@@ -108,22 +124,6 @@ const ChapterIdPage = async ({
 					</div>
 				</div>
 				<div>
-					<div className="p-4 flex flex-col md:flex-row items-center justify-between">
-						<h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
-						{purchase ? (
-							<CourseProgressButton
-								chapterId={params.chapterId}
-								courseId={params.courseId}
-								nextChapterId={nextChapter?.id}
-								isCompleted={!!userProgress?.isCompleted}
-							/>
-						) : (
-							<CourseEnrollButton
-								courseId={params.courseId}
-								price={course.price!}
-							/>
-						)}
-					</div>
 						<Separator />
 					<div>
 						<Preview value={chapter.description!} />
