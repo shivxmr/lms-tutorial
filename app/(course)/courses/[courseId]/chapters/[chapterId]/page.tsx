@@ -15,64 +15,64 @@ import { getAttachments } from "@/actions/get-attachments";
 import PdfViewer from "@/components/pdfViewer";
 
 const ChapterIdPage = async ({
-	params,
+  params,
 }: {
-	params: { courseId: string; chapterId: string };
+  params: { courseId: string; chapterId: string };
 }) => {
-	const { userId } = auth();
+  const { userId } = auth();
 
-	if (!userId) {
-		return redirect("/");
-	}
+  if (!userId) {
+    return redirect("/");
+  }
 
-	const { chapter, course, nextChapter, userProgress, purchase } =
-		await getChapter({
-			userId,
-			chapterId: params.chapterId,
-			courseId: params.courseId,
-		});
+  const { chapter, course, nextChapter, userProgress, purchase } =
+    await getChapter({
+      userId,
+      chapterId: params.chapterId,
+      courseId: params.courseId,
+    });
 
-	if (!chapter || !course) {
-		return redirect("/");
-	}
+  if (!chapter || !course) {
+    return redirect("/");
+  }
 
-	const getTime = (time: any) => {
-		const durationSec = time / 1000;
+  const getTime = (time: any) => {
+    const durationSec = time / 1000;
 
-		// Extract hours, minutes, seconds, and milliseconds
-		const hours = Math.floor(durationSec / 3600);
-		const minutes = Math.floor((durationSec % 3600) / 60);
-		const seconds = Math.floor(durationSec % 60);
-		const milliseconds = Math.floor(durationSec % 1000);
+    // Extract hours, minutes, seconds, and milliseconds
+    const hours = Math.floor(durationSec / 3600);
+    const minutes = Math.floor((durationSec % 3600) / 60);
+    const seconds = Math.floor(durationSec % 60);
+    const milliseconds = Math.floor(durationSec % 1000);
 
-		// Format the time as HH:MM:SS.MMM
-		const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-			.toString()
-			.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds
-			.toString()
-			.padStart(3, "0")}`;
+    // Format the time as HH:MM:SS.MMM
+    // const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+    //   .toString()
+    //   .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds
+    //   .toString()
+    //   .padStart(3, "0")}`;
+    const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-		return formattedTime;
-	};
+    return formattedTime;
+  };
 
-	const { attachments } = await getAttachments({
-		chapterId: params.chapterId,
-		courseId: params.courseId,
-	});
-	console.log(attachments);
+  const { attachments } = await getAttachments({
+    chapterId: params.chapterId,
+    courseId: params.courseId,
+  });
+  console.log(attachments);
 
-	const isLocked = !chapter.isFree && !purchase;
-	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
+  const isLocked = !chapter.isFree && !purchase;
+  const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
-	return (
-		<div>
-			{userProgress?.isCompleted && (
-				<Banner
-					variant="success"
-					label="You already completed this chapter."
-				/>
-			)}
-			{/* {isLocked && (
+  return (
+    <div>
+      {userProgress?.isCompleted && (
+        <Banner variant="success" label="You already completed this chapter." />
+      )}
+      {/* {isLocked && (
 				<Banner
 					variant="warning"
 					label="You need to purchase this course to watch this chapter."
