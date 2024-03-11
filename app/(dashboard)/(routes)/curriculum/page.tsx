@@ -7,8 +7,6 @@ const cirriculumPage = () => {
 				style={{ position: "relative" }}
 				src={"/curriculum.png"}
 				alt=""
-				layout="fill"
-				objectFit="cover"
 			/>
 		</div>
 	);

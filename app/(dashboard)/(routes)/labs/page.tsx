@@ -8,8 +8,6 @@ const labsPage = () => {
 				style={{ position: "relative" }}
 				src={"/labs.png"}
 				alt=""
-				layout="fill"
-				objectFit="cover"
 			/>
 		</div>
 	);
