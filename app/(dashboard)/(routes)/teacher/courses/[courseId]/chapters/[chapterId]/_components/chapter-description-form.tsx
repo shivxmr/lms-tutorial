@@ -87,6 +87,7 @@ export const ChapterDescriptionForm = ({
           {initialData.description && (
             <Preview
               value={initialData.description}
+              showLanguage={false}
             />
           )}
         </div>

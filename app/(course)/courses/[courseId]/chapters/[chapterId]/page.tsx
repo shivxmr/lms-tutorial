@@ -141,7 +141,10 @@ const ChapterIdPage = async ({
 					<Separator />
 					{chapter?.description && (
 						<div>
-							<Preview value={chapter.description!} />
+							<Preview
+								value={chapter.description!}
+								showLanguage={true}
+							/>
 						</div>
 					)}
 					<div className="">
@@ -161,13 +164,10 @@ const ChapterIdPage = async ({
 							<Separator />
 							<div className="p-4">
 								{attachments.map((attachment) => (
-									<a
-										href={attachment.url}
-										target="_blank"
-										key={attachment.id}
-										className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline">
-										<PdfViewer fileName={`/pdf/${attachment.name}`} />
-									</a>
+									<PdfViewer
+										key={attachment}
+										fileName={`/pdf/${attachment.url}`}
+									/>
 								))}
 							</div>
 						</>

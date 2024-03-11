@@ -1,6 +1,7 @@
 "use client";
 
 export default function PdfViewer({ fileName }: any) {
+	console.log(fileName);
 	return (
 		<>
 			<embed

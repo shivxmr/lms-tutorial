@@ -25,7 +25,7 @@ export async function POST(
 
 		const attachment = await db.attachment.create({
 			data: {
-				url,
+				url: filename,
 				name: url.split("/").pop(),
 				courseId: params.courseId,
 				chapterId: params.chapterId,

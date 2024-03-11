@@ -8,6 +8,7 @@ import "react-quill/dist/quill.bubble.css";
 
 interface PreviewProps {
 	value: string;
+	showLanguage: boolean;
 }
 
 const languageOptions = [
@@ -16,7 +17,7 @@ const languageOptions = [
 	{ value: "hi", label: "Hindi" },
 ];
 
-export const Preview = ({ value }: PreviewProps) => {
+export const Preview = ({ value, showLanguage }: PreviewProps) => {
 	const ReactQuill = useMemo(
 		() => dynamic(() => import("react-quill"), { ssr: false }),
 		[]
@@ -34,7 +35,7 @@ export const Preview = ({ value }: PreviewProps) => {
 				if (selectedLanguage.value !== "en") {
 					axios
 						.post("/api/translate", {
-							textData: translateValue,
+							textData: value,
 							language: selectedLanguage.value,
 						})
 						.then((res) => setTranslateValue(res?.data))
@@ -54,14 +55,18 @@ export const Preview = ({ value }: PreviewProps) => {
 
 	return (
 		<div className="flex flex-col justify-center  border p-2 mt-10">
-			<Select
-				options={languageOptions}
-				value={selectedLanguage}
-				onChange={handleLanguageChange}
-				placeholder="Select language..."
-				isClearable
-				className="ml-auto"
-			/>
+			{showLanguage && (
+				<Select
+					options={languageOptions}
+					value={
+						selectedLanguage ||
+						languageOptions.find((option) => option.value === "en")
+					}
+					onChange={handleLanguageChange}
+					placeholder="Select language..."
+					className="ml-auto"
+				/>
+			)}
 			<ReactQuill
 				theme="bubble"
 				value={translateValue}
