@@ -1,51 +1,66 @@
 "use client";
-
-import * as z from "zod";
 import axios from "axios";
 import { Pencil, PlusCircle, ImageIcon, File, Loader2, X } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Attachment, Course } from "@prisma/client";
-import Image from "next/image";
-
+import { Attachment, Chapter, Course } from "@prisma/client";
 import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
 
 interface AttachmentFormProps {
-	initialData: Course & { attachments: Attachment[] };
+	initialData: any & { attachments: Attachment[] };
 	courseId: string;
+	chapterId: string;
 }
-
-const formSchema = z.object({
-	url: z.string().min(1),
-});
 
 export const AttachmentForm = ({
 	initialData,
 	courseId,
+	chapterId,
 }: AttachmentFormProps) => {
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState,
+		formState: { errors },
+	} = useForm();
 	const [isEditing, setIsEditing] = useState(false);
 	const [deletingId, setDeletingId] = useState<string | null>(null);
+	const [document, setDocument] = useState<any>(null);
 
 	const toggleEdit = () => setIsEditing((current) => !current);
 
+	const onChangePicture = (e: any) => {
+		setDocument(URL.createObjectURL(e.target.files[0]));
+	};
+
 	const router = useRouter();
 
-	const onSubmit = async (values: z.infer<typeof formSchema>) => {
-		try {
-			await axios.post(`/api/courses/${courseId}/attachments`, values);
-			toast.success("Course updated");
-			toggleEdit();
-			router.refresh();
-		} catch {
-			toast.error("Something went wrong");
-		}
+	const onSubmit = async (data: any) => {
+		const formData = new FormData();
+		formData.append("file", data.file[0]);
+		const res = await fetch(
+			`/api/courses/${courseId}/chapters/${chapterId}/attachments`,
+			{
+				method: "POST",
+				body: formData,
+			}
+		)
+			.then((res) => res.json())
+			.catch((err) => console.log(err));
+
+		alert(JSON.stringify(`${res.message}, status: ${res.status}`));
+		setDocument(null);
 	};
 
 	const onDelete = async (id: string) => {
 		try {
 			setDeletingId(id);
-			await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+			await axios.delete(
+				`/api/courses/${courseId}/chapters/${chapterId}/attachments/${id}`
+			);
 			toast.success("Attachment deleted");
 			router.refresh();
 		} catch {
@@ -73,14 +88,14 @@ export const AttachmentForm = ({
 			</div>
 			{!isEditing && (
 				<>
-					{initialData.attachments.length === 0 && (
+					{initialData?.attachments?.length === 0 && (
 						<p className="text-sm mt-2 text-slate-500 italic">
 							No attachments yet
 						</p>
 					)}
-					{initialData.attachments.length > 0 && (
+					{initialData?.attachments?.length > 0 && (
 						<div className="space-y-2">
-							{initialData.attachments.map((attachment) => (
+							{initialData.attachments.map((attachment: any) => (
 								<div
 									key={attachment.id}
 									className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md">
@@ -106,6 +121,16 @@ export const AttachmentForm = ({
 			)}
 			{isEditing && (
 				<div>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<input
+							type="file"
+							accept=".pdf"
+							{...register("file", { required: true })}
+							onChange={onChangePicture}
+						/>
+						<input type="submit" />
+					</form>
+
 					<div className="text-xs text-muted-foreground mt-4">
 						Add anything your students might need to complete the course.
 					</div>

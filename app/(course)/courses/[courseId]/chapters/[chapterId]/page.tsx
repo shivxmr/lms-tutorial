@@ -11,6 +11,8 @@ import VideoPlayer from "./_components/video-player";
 import { CourseEnrollButton } from "./_components/course-enroll-button";
 import { CourseProgressButton } from "./_components/course-progress-button";
 import { SubmissionForm } from "./_components/submission-form";
+import { getAttachments } from "@/actions/get-attachments";
+import PdfViewer from "@/components/pdfViewer";
 
 const ChapterIdPage = async ({
 	params,
@@ -23,7 +25,7 @@ const ChapterIdPage = async ({
 		return redirect("/");
 	}
 
-	const { chapter, course, attachments, nextChapter, userProgress, purchase } =
+	const { chapter, course, nextChapter, userProgress, purchase } =
 		await getChapter({
 			userId,
 			chapterId: params.chapterId,
@@ -53,6 +55,12 @@ const ChapterIdPage = async ({
 		return formattedTime;
 	};
 
+	const { attachments } = await getAttachments({
+		chapterId: params.chapterId,
+		courseId: params.courseId,
+	});
+	console.log(attachments);
+
 	const isLocked = !chapter.isFree && !purchase;
 	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
@@ -71,21 +79,21 @@ const ChapterIdPage = async ({
 				/>
 			)} */}
 			<div className="p-4 flex flex-col md:flex-row items-center justify-between">
-						<h2 className="text-2xl font-semibold mb-1">{chapter.title}</h2>
-						{purchase ? (
-							<CourseProgressButton
-								chapterId={params.chapterId}
-								courseId={params.courseId}
-								nextChapterId={nextChapter?.id}
-								isCompleted={!!userProgress?.isCompleted}
-							/>
-						) : (
-							<CourseEnrollButton
-								courseId={params.courseId}
-								price={course.price!}
-							/>
-						)}
-					</div>
+				<h2 className="text-2xl font-semibold mb-1">{chapter.title}</h2>
+				{purchase ? (
+					<CourseProgressButton
+						chapterId={params.chapterId}
+						courseId={params.courseId}
+						nextChapterId={nextChapter?.id}
+						isCompleted={!!userProgress?.isCompleted}
+					/>
+				) : (
+					<CourseEnrollButton
+						courseId={params.courseId}
+						price={course.price!}
+					/>
+				)}
+			</div>
 			<div className="flex flex-col mx-auto px-10 mt-10 pb-20">
 				<div
 					className="grid grid-cols-2 gap-x-5"
@@ -104,37 +112,38 @@ const ChapterIdPage = async ({
 						<div
 							className="border h-full overflow-y-auto w-full"
 							style={{ maxHeight: "inherit" }}>
-								{YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
-									(res) => (
-										<>
-											{res.map((response) => (
-												<div
-													className="flex"
-													key={response.offset}>
-													<span className="text-gray-400">
-														{getTime(response?.duration + response?.offset)}
-													</span>
-													<span className=" ml-3 font-medium">
-														{response?.text}
-													</span>
-												</div>
-											))}
-										</>
-									)
-								)}
-							</div>
-						)}
-					{!chapter.videoUrl || !chapter.videoUrl.includes("youtube.com") && (
-						<div>
-							Invalid or missing Youtube video URL.
+							{YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
+								(res) => (
+									<>
+										{res.map((response) => (
+											<div
+												className="flex"
+												key={response.offset}>
+												<span className="text-gray-400">
+													{getTime(response?.duration + response?.offset)}
+												</span>
+												<span className=" ml-3 font-medium">
+													{response?.text}
+												</span>
+											</div>
+										))}
+									</>
+								)
+							)}
 						</div>
 					)}
+					{!chapter.videoUrl ||
+						(!chapter.videoUrl.includes("youtube.com") && (
+							<div>Invalid or missing Youtube video URL.</div>
+						))}
 				</div>
 				<div>
-						<Separator />
-					{chapter?.description && <div>
-						<Preview value={chapter.description!} />
-					</div>}
+					<Separator />
+					{chapter?.description && (
+						<div>
+							<Preview value={chapter.description!} />
+						</div>
+					)}
 					<div className="">
 						<SubmissionForm
 							courseId={params.courseId}
@@ -157,19 +166,12 @@ const ChapterIdPage = async ({
 										target="_blank"
 										key={attachment.id}
 										className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline">
-										<File />
-										<p className="line-clamp-1">{attachment.name}</p>
+										<PdfViewer fileName={`/pdf/${attachment.name}`} />
 									</a>
 								))}
 							</div>
 						</>
 					)}
-					<div className="mt-4 mb-4">
-					<Separator />
-					</div>
-					<div>
-					<embed src="/pdf/Report.pdf" type="application/pdf" width="100%" height="600px" />
-					</div>
 				</div>
 			</div>
 		</div>

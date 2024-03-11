@@ -3,12 +3,13 @@ import React from "react";
 
 const labsPage = () => {
 	return (
-		<div className="w-full">
-			<Image
+		<div className="relative w-full">
+			<img
+				style={{ position: "relative" }}
 				src={"/labs.png"}
 				alt=""
-				width={1200}
-				height={1200}
+				layout="fill"
+				objectFit="cover"
 			/>
 		</div>
 	);

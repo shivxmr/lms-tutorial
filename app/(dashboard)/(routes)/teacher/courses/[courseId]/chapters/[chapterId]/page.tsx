@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
 	ArrowLeft,
 	Eye,
+	File,
 	LayoutDashboard,
 	TicketCheckIcon,
 	Video,
@@ -19,6 +20,7 @@ import { ChapterAccessForm } from "./_components/chapter-access-form";
 import { ChaptervideoForm } from "./_components/chapter-video-form";
 import { ChapterActions } from "./_components/chapter-actions";
 import { ChapterSubmissionForm } from "./_components/chapter-submission-form";
+import { AttachmentForm } from "../../_components/attachment-form";
 
 const ChapterIdPage = async ({
 	params,
@@ -117,6 +119,18 @@ const ChapterIdPage = async ({
 								chapterId={params.chapterId}
 							/>
 						</div>
+					</div>
+
+					<div>
+						<div className="flex items-center gap-x-2">
+							<IconBadge icon={File} />
+							<h2 className="text-xl">Resources & Attachments</h2>
+						</div>
+						<AttachmentForm
+							initialData={chapter}
+							courseId={params.courseId}
+							chapterId={params.chapterId}
+						/>
 					</div>
 					<div>
 						<div className="flex items-center gap-x-2">
