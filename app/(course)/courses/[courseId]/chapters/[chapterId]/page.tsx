@@ -15,167 +15,193 @@ import { getAttachments } from "@/actions/get-attachments";
 import PdfViewer from "@/components/pdfViewer";
 
 const ChapterIdPage = async ({
-	params,
+  params,
 }: {
-	params: { courseId: string; chapterId: string };
+  params: { courseId: string; chapterId: string };
 }) => {
-	const { userId } = auth();
+  const { userId } = auth();
 
-	if (!userId) {
-		return redirect("/");
-	}
+  if (!userId) {
+    return redirect("/");
+  }
 
-	const { chapter, course, nextChapter, userProgress, purchase } =
-		await getChapter({
-			userId,
-			chapterId: params.chapterId,
-			courseId: params.courseId,
-		});
+  const { chapter, course, nextChapter, userProgress, purchase } =
+    await getChapter({
+      userId,
+      chapterId: params.chapterId,
+      courseId: params.courseId,
+    });
 
-	if (!chapter || !course) {
-		return redirect("/");
-	}
+  if (!chapter || !course) {
+    return redirect("/");
+  }
 
-	const getTime = (time: any) => {
-		const durationSec = time / 1000;
+  const getTime = (time: any) => {
+    const durationSec = time / 1000;
 
-		// Extract hours, minutes, seconds, and milliseconds
-		const hours = Math.floor(durationSec / 3600);
-		const minutes = Math.floor((durationSec % 3600) / 60);
-		const seconds = Math.floor(durationSec % 60);
-		const milliseconds = Math.floor(durationSec % 1000);
+    // Extract hours, minutes, seconds, and milliseconds
+    const hours = Math.floor(durationSec / 3600);
+    const minutes = Math.floor((durationSec % 3600) / 60);
+    const seconds = Math.floor(durationSec % 60);
+    const milliseconds = Math.floor(durationSec % 1000);
 
-		// Format the time as HH:MM:SS.MMM
-		const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-			.toString()
-			.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds
-			.toString()
-			.padStart(3, "0")}`;
+    // Format the time as HH:MM:SS.MMM
+    // const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+    //   .toString()
+    //   .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds
+    //   .toString()
+    //   .padStart(3, "0")}`;
+    const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-		return formattedTime;
-	};
+    return formattedTime;
+  };
 
-	const { attachments } = await getAttachments({
-		chapterId: params.chapterId,
-		courseId: params.courseId,
-	});
-	console.log(attachments);
+  const { attachments } = await getAttachments({
+    chapterId: params.chapterId,
+    courseId: params.courseId,
+  });
+  console.log(attachments);
 
-	const isLocked = !chapter.isFree && !purchase;
-	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
+  const isLocked = !chapter.isFree && !purchase;
+  const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
-	return (
-		<div>
-			{userProgress?.isCompleted && (
-				<Banner
-					variant="success"
-					label="You already completed this chapter."
-				/>
-			)}
-			{/* {isLocked && (
+  return (
+    <div>
+      {userProgress?.isCompleted && (
+        <Banner variant="success" label="You already completed this chapter." />
+      )}
+      {/* {isLocked && (
 				<Banner
 					variant="warning"
 					label="You need to purchase this course to watch this chapter."
 				/>
 			)} */}
-			<div className="p-4 flex flex-col md:flex-row items-center justify-between">
-				<h2 className="text-2xl font-semibold mb-1">{chapter.title}</h2>
-				{purchase ? (
-					<CourseProgressButton
-						chapterId={params.chapterId}
-						courseId={params.courseId}
-						nextChapterId={nextChapter?.id}
-						isCompleted={!!userProgress?.isCompleted}
-					/>
-				) : (
-					<CourseEnrollButton
-						courseId={params.courseId}
-						price={course.price!}
-					/>
-				)}
-			</div>
-			<div className="flex flex-col mx-auto px-10 mt-10 pb-20">
-				<div
-					className="grid grid-cols-2 gap-x-5"
-					style={{ maxHeight: "700px" }}>
-					<VideoPlayer
-						// chapterId={params.chapterId}
-						// title={chapter.title}
-						// courseId={params.courseId}
-						// nextChapterId={nextChapter?.id}
-						// playbackId={chapter.videoUrl as any}
-						// isLocked={isLocked}
-						// completeOnEnd={completeOnEnd}
-						videoUrl={chapter.videoUrl || ""}
-					/>
-					{chapter.videoUrl && chapter.videoUrl.includes("youtube.com") && (
-						<div
-							className="border h-full overflow-y-auto w-full"
-							style={{ maxHeight: "inherit" }}>
-							{YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
-								(res) => (
-									<>
-										{res.map((response) => (
-											<div
-												className="flex"
-												key={response.offset}>
-												<span className="text-gray-400">
-													{getTime(response?.duration + response?.offset)}
-												</span>
-												<span className=" ml-3 font-medium">
-													{response?.text}
-												</span>
-											</div>
-										))}
-									</>
-								)
-							)}
-						</div>
-					)}
-					{!chapter.videoUrl ||
-						(!chapter.videoUrl.includes("youtube.com") && (
-							<div>Invalid or missing Youtube video URL.</div>
-						))}
-				</div>
-				<div>
-					<Separator />
-					{chapter?.description && (
-						<div>
-							<Preview value={chapter.description!} />
-						</div>
-					)}
-					<div className="">
-						<SubmissionForm
-							courseId={params.courseId}
-							chapterId={params.chapterId}
-							initialData={{
-								submissionLink: "",
-							}}
-							nextChapterId={nextChapter?.id}
-							isCompleted={!!userProgress?.isCompleted}
-						/>
-					</div>
-					<Separator />
-					{!!attachments.length && (
-						<>
-							<Separator />
-							<div className="p-4">
-								{attachments.map((attachment) => (
-									<a
-										href={attachment.url}
-										target="_blank"
-										key={attachment.id}
-										className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline">
-										<PdfViewer fileName={`/pdf/${attachment.name}`} />
-									</a>
-								))}
-							</div>
-						</>
-					)}
-				</div>
-			</div>
-		</div>
-	);
+      <div className="p-4 flex flex-col md:flex-row items-center justify-between">
+        <h2 className="text-2xl font-semibold mb-1">{chapter.title}</h2>
+        {purchase ? (
+          <CourseProgressButton
+            chapterId={params.chapterId}
+            courseId={params.courseId}
+            nextChapterId={nextChapter?.id}
+            isCompleted={!!userProgress?.isCompleted}
+          />
+        ) : (
+          <CourseEnrollButton
+            courseId={params.courseId}
+            price={course.price!}
+          />
+        )}
+      </div>
+      <div className="flex flex-col mx-auto px-10 mt-10 pb-20">
+        <div
+          className="grid grid-cols-2 gap-x-5"
+          style={{ maxHeight: "40rem"}}
+        >
+          <VideoPlayer
+            // chapterId={params.chapterId}
+            // title={chapter.title}
+            // courseId={params.courseId}
+            // nextChapterId={nextChapter?.id}
+            // playbackId={chapter.videoUrl as any}
+            // isLocked={isLocked}
+            // completeOnEnd={completeOnEnd}
+            videoUrl={chapter.videoUrl || ""}
+          />
+          {chapter.videoUrl && chapter.videoUrl.includes("youtube.com") && (
+            <div
+              className="border h-full overflow-y-auto w-full"
+              style={{
+                maxHeight: "37rem",
+                overflowY: "auto",
+              }}
+            >
+              {YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
+                (res) => (
+                  <>
+                    {res.map((response) => (
+                      <div
+                        className="flex"
+                        //   key={response.offset}
+                      >
+                        <div
+                          style={{
+                            width: "5rem",
+                            padding: "0.2rem 0.7rem 0.2rem 0rem",
+                            margin: "0rem 0rem 0rem 0.7rem",
+                          }}
+                        >
+                          <span className="text-gray font-medium">
+                            {getTime(response?.duration + response?.offset)}
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            // width: "30rem",
+                            padding: "0.2rem 0.7rem 0.2rem 0rem",
+                          }}
+                        >
+                          <span className=" ml-3 font-medium">
+                            {response?.text}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )
+              )}
+            </div>
+          )}
+          {!chapter.videoUrl ||
+            (!chapter.videoUrl.includes("youtube.com") && (
+              <div>Invalid or missing Youtube video URL.</div>
+            ))}
+        </div>
+        <div>
+          <Separator />
+          {chapter?.description && (
+            <div>
+              <Preview value={chapter.description!} />
+            </div>
+          )}
+          <div className=""
+		  style={{
+			// backgroundColor: "#2155bf",
+		  }}
+		  >
+            <SubmissionForm
+              courseId={params.courseId}
+              chapterId={params.chapterId}
+              initialData={{
+                submissionLink: "",
+              }}
+              nextChapterId={nextChapter?.id}
+              isCompleted={!!userProgress?.isCompleted}
+            />
+          </div>
+          <Separator />
+          {!!attachments.length && (
+            <>
+              <Separator />
+              <div className="p-4">
+                {attachments.map((attachment) => (
+                  <a
+                    href={attachment.url}
+                    target="_blank"
+                    key={attachment.id}
+                    className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                  >
+                    <PdfViewer fileName={`/pdf/${attachment.name}`} />
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ChapterIdPage;

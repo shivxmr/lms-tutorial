@@ -58,7 +58,7 @@ export const Preview = ({ value }: PreviewProps) => {
 				options={languageOptions}
 				value={selectedLanguage}
 				onChange={handleLanguageChange}
-				placeholder="Select language..."
+				placeholder="Select language"
 				isClearable
 				className="ml-auto"
 			/>
