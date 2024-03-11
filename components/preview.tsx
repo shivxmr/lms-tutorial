@@ -54,7 +54,7 @@ export const Preview = ({ value, showLanguage }: PreviewProps) => {
 	}, [selectedLanguage]);
 
 	return (
-		<div className="flex flex-col justify-center  border p-2 mt-10">
+		<div className="flex flex-col justify-center font-medium border p-2 mt-10">
 			{showLanguage && (
 				<Select
 					options={languageOptions}
