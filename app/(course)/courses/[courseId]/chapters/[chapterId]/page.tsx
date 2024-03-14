@@ -68,7 +68,7 @@ const ChapterIdPage = async ({
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
   return (
-    <div>
+    <div className="pb-10">
       {userProgress?.isCompleted && (
         <Banner variant="success" label="You already completed this chapter." />
       )}
@@ -99,7 +99,7 @@ const ChapterIdPage = async ({
           className="flex flex-col mx-auto px-10 mt-10 pb-20"
           style={{
             // maxHeight: "38rem",
-            border: "0.2rem solid #6d94e3",
+            border: "0.12rem solid #6d94e3",
             borderRadius: "1rem",
             height: "auto",
             backgroundColor: "#cfe5ff",
@@ -129,6 +129,7 @@ const ChapterIdPage = async ({
                   borderRadius: "1rem",
                 }}
               >
+                <h1 className="text-2xl mb-3 mx-4 ml-1 mt-0">Transcript</h1>
                 {YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
                   (res) => (
                     <>
@@ -173,7 +174,7 @@ const ChapterIdPage = async ({
           className="flex flex-col mx-auto px-10 mt-10 pb-20"
           style={{
             // maxHeight: "38rem",
-            border: "0.2rem solid #6d94e3",
+            border: "0.12rem solid #6d94e3",
             borderRadius: "1rem",
             height: "auto",
             backgroundColor: "#cfe5ff",
