@@ -38,11 +38,11 @@ export const CourseSidebar = async ({
   return (
     <div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
       <div className="p-8 flex flex-col border-b">
-        <h1 className="font-semibold">
+        <h1 className="font-semibold text-2xl">
           {course.title}
         </h1>
         {purchase && (
-          <div className="mt-10">
+          <div className="mt-5">
             <CourseProgress
               variant="success"
               value={progressCount}
