@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
@@ -7,6 +6,8 @@ import { getCourses } from "@/actions/get-courses";
 import { CoursesList } from "@/components/courses-list";
 
 import { Categories } from "./_components/categories";
+import { getSession } from "next-auth/react";
+import { getLocalSession } from "@/actions/get-session";
 
 interface SearchPageProps {
 	searchParams: {
@@ -16,7 +17,11 @@ interface SearchPageProps {
 }
 
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
-	const { userId } = auth();
+	const session = await getLocalSession();
+	console.log(session);
+	const userId = session?.session?.user?.id;
+
+	console.log(userId, "**********************");
 
 	if (!userId) {
 		return redirect("/");

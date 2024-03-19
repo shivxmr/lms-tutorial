@@ -1,15 +1,15 @@
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
+import { getLocalSession } from "@/actions/get-session";
 
 export async function DELETE(
 	req: Request,
 	{ params }: { params: { courseId: string; chapterId: string } }
 ) {
 	try {
-		const { userId } = auth();
-
+		const session = await getLocalSession();
+		const userId = session?.session?.user?.id;
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}
@@ -72,7 +72,6 @@ export async function PATCH(
 	{ params }: { params: { courseId: string; chapterId: string } }
 ) {
 	try {
-		const { userId } = auth();
 		const { isPublished, ...values } = await req.json();
 
 		if (!userId) {

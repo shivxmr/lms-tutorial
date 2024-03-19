@@ -2,7 +2,8 @@ import { Category, Course } from "@prisma/client";
 
 import { getProgress } from "@/actions/get-progress";
 import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs";
+import { getSession } from "next-auth/react";
+import { getLocalSession } from "./get-session";
 
 type CourseWithProgressWithCategory = Course & {
 	category: Category | null;
@@ -20,7 +21,9 @@ export const getCourses = async ({
 	categoryId,
 }: GetCourses): Promise<CourseWithProgressWithCategory[]> => {
 	try {
-		const { userId }: any = auth();
+		const session = await getLocalSession();
+		const userId = session?.session?.user?.id;
+
 		const courses = await db.course.findMany({
 			where: {
 				isPublished: true,

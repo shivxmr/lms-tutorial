@@ -1,16 +1,12 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import { ToastProvider } from "@/components/providers/toaster-provider";
 import { ConfettiProvider } from "@/components/providers/confetti-provider";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-	title: "Intel LMS Platform",
-	description: "Learning Management System",
-};
 
 export default function RootLayout({
 	children,
@@ -19,15 +15,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<>
-			<ClerkProvider>
-				<html lang="en">
-					<body className={inter.className}>
-						<ConfettiProvider />
-						<ToastProvider />
-						{children}
-					</body>
-				</html>
-			</ClerkProvider>
+			<html lang="en">
+				<body className={inter.className}>
+					<ConfettiProvider />
+					<ToastProvider />
+					<SessionProvider>{children}</SessionProvider>
+				</body>
+			</html>
 		</>
 	);
 }

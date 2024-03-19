@@ -1,6 +1,6 @@
 import { IconBadge } from "@/components/icon-badge";
 import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs";
+
 import {
 	CircleDollarSign,
 	File,
@@ -15,10 +15,13 @@ import { CategoryForm } from "./_components/category-form";
 import { PriceForm } from "./_components/price-form";
 import { ChaptersForm } from "./_components/chapters-form";
 import { Actions } from "./_components/actions";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { getLocalSession } from "@/actions/get-session";
 
 const CourseIdPage = async ({ params }: { params: { courseId: string } }) => {
-	const { userId } = auth();
-
+	const session = await getLocalSession();
+	const userId = session?.session?.user?.id;
 	if (!userId) {
 		return redirect("/");
 	}

@@ -1,16 +1,17 @@
-import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
+import { getLocalSession } from "@/actions/get-session";
 
 export async function POST(
 	req: Request,
 	{ params }: { params: { courseId: string } }
 ) {
 	try {
-		const user = await currentUser();
+		const session = await getLocalSession();
+		const user = session?.session?.user;
 
-		if (!user || !user.id || !user.emailAddresses?.[0]?.emailAddress) {
+		if (!user || !user.id || !user.email) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}
 

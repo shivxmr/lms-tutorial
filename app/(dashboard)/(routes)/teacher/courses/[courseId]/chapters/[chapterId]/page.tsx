@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
@@ -21,14 +20,15 @@ import { ChaptervideoForm } from "./_components/chapter-video-form";
 import { ChapterActions } from "./_components/chapter-actions";
 import { ChapterSubmissionForm } from "./_components/chapter-submission-form";
 import { AttachmentForm } from "../../_components/attachment-form";
+import { getLocalSession } from "@/actions/get-session";
 
 const ChapterIdPage = async ({
 	params,
 }: {
 	params: { courseId: string; chapterId: string };
 }) => {
-	const { userId } = auth();
-
+	const session = await getLocalSession();
+	const userId = session?.session?.user?.id;
 	if (!userId) {
 		return redirect("/");
 	}
