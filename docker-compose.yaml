@@ -4,6 +4,11 @@ services:
   frontend:
     build:
       context: ./
+      args:
+        http_proxy: http://proxy01.iind.intel.com:911/
+        https_proxy: http://proxy01.iind.intel.com:912/
+        HTTP_PROXY: http://proxy01.iind.intel.com:911/
+        HTTPS_PROXY: http://proxy01.iind.intel.com:912/
     container_name: lms
     restart: always
     ports:
