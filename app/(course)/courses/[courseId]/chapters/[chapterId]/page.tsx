@@ -20,11 +20,11 @@ const ChapterIdPage = async ({
 }: {
   params: { courseId: string; chapterId: string };
 }) => {
-  const session = await getLocalSession();
-  const userId = session?.session?.user?.id;
-  if (!userId) {
-    return redirect("/");
-  }
+	const session = await getLocalSession();
+	const userId = session?.userId;
+	if (!userId) {
+		return redirect("/");
+	}
 
   const { chapter, course, nextChapter, userProgress, purchase } =
     await getChapter({

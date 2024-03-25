@@ -28,7 +28,7 @@ const ChapterIdPage = async ({
 	params: { courseId: string; chapterId: string };
 }) => {
 	const session = await getLocalSession();
-	const userId = session?.session?.user?.id;
+	const userId = session?.userId;
 	if (!userId) {
 		return redirect("/");
 	}

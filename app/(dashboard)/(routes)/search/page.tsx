@@ -19,7 +19,7 @@ interface SearchPageProps {
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
 	const session = await getLocalSession();
 	console.log(session);
-	const userId = session?.session?.user?.id;
+	const userId = session?.userId;
 
 	console.log(userId, "**********************");
 

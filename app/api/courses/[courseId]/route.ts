@@ -9,7 +9,7 @@ export async function DELETE(
 ) {
 	try {
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}
@@ -51,7 +51,7 @@ export async function PATCH(
 		const { courseId } = params;
 		const values = await req.json();
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}

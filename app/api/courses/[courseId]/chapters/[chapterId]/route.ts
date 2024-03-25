@@ -7,12 +7,14 @@ export async function DELETE(
   req: Request,
   { params }: { params: { courseId: string; chapterId: string } }
 ) {
-  try {
-    const session = await getLocalSession();
-    const userId = session?.session?.user?.id;
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+	try {
+		const session = await getLocalSession();
+		const userId = session?.userId;
+		// log id
+		console.log(userId);
+		if (!userId) {
+			return new NextResponse("Unauthorized", { status: 401 });
+		}
 
     const ownCourse = await db.course.findUnique({
       where: {
@@ -71,21 +73,23 @@ export async function PATCH(
   req: Request,
   { params }: { params: { courseId: string; chapterId: string } }
 ) {
-  try {
-    const session = await getLocalSession();
-    const userId = session?.session?.user?.id;
-    const { isPublished, ...values } = await req.json();
+	try {
+		const session = await getLocalSession();
+		const userId = session?.userId;
+		// log id
+		console.log(userId);
+		if (!userId) {
+			return new NextResponse("Unauthorized", { status: 401 });
+		}
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+		const { isPublished, ...values } = await req.json();
 
-    const ownCourse = await db.course.findUnique({
-      where: {
-        id: params.courseId,
-        userId,
-      },
-    });
+		const ownCourse = await db.course.findUnique({
+			where: {
+				id: params.courseId,
+				userId,
+			},
+		});
 
     if (!ownCourse) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -107,23 +111,3 @@ export async function PATCH(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
-// export async function GET(req: Request) {
-// 	const { vidUrl } = await req.json();
-// 	const url = `https://youtube-video-summarizer1.p.rapidapi.com/v1/youtube/summarizeVideoFromCache?videoURL=${vidUrl}`;
-// 	const options = {
-// 		method: "GET",
-// 		headers: {
-// 			"X-RapidAPI-Key": "017d1680c1msh5ae36e1ca8347edp1f023cjsn4cd69f084ced",
-// 			"X-RapidAPI-Host": "youtube-video-summarizer1.p.rapidapi.com",
-// 		},
-// 	};
-
-// 	try {
-// 		const response = await fetch(url, options);
-// 		const result = await response.text();
-// 		return NextResponse.json(result);
-// 	} catch (error) {
-// 		console.error(error);
-// 		return new NextResponse("Internal Error", { status: 500 });
-// 	}
-// }

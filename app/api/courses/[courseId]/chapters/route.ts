@@ -9,7 +9,7 @@ export async function POST(
 ) {
 	try {
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 		const { title } = await req.json();
 
 		if (!userId) {
