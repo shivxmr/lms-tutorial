@@ -71,5 +71,5 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5"
   },
-#  "type": "module"
+  "type": "module"
 }
