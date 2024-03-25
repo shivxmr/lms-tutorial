@@ -5,6 +5,7 @@ import { getChapter } from "@/actions/get-chapter";
 import { Banner } from "@/components/banner";
 import { Separator } from "@/components/ui/separator";
 import { Preview } from "@/components/preview";
+import Image from "next/image";
 
 import VideoPlayer from "./_components/video-player";
 import { CourseEnrollButton } from "./_components/course-enroll-button";
@@ -100,7 +101,7 @@ const ChapterIdPage = async ({
           style={{
             // maxHeight: "38rem",
             border: "0.12rem solid #6d94e3",
-            borderRadius: "1rem",
+            borderRadius: "0.1rem",
             height: "auto",
             // backgroundColor: "#cfe5ff",
             backgroundColor: "white",
@@ -127,22 +128,24 @@ const ChapterIdPage = async ({
                   maxHeight: "37.55rem",
                   padding: "1.2rem",
                   backgroundColor: "#ffffff",
-                  borderRadius: "1rem",
+                  borderRadius: "0.1rem",
                 }}
               >
-                <h1 className="text-2xl mb-3 mx-4 ml-1 mt-0">Transcript</h1>
                 {YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
                   (res) => (
                     <>
                       {res.map((response) => (
-                        <div className="flex" key={response.offset}>
+                        <div
+                          className="flex border-solid border-y border-blue-50 hover:border-blue-300 transition-all ease-out"
+                          key={response.offset}
+                        >
                           <div
                             style={{
                               width: "5rem",
                               padding: "0.1rem 0rem 0.1rem 0.5rem",
                             }}
                           >
-                            <span className="text-gray font-medium">
+                            <span className="text-gray font-medium font-bold">
                               {getTime(response?.duration + response?.offset)}
                             </span>
                           </div>
@@ -176,7 +179,7 @@ const ChapterIdPage = async ({
           style={{
             // maxHeight: "38rem",
             border: "0.12rem solid #6d94e3",
-            borderRadius: "1rem",
+            borderRadius: "0.1rem",
             height: "auto",
             backgroundColor: "white",
             padding: "2rem",
@@ -187,26 +190,41 @@ const ChapterIdPage = async ({
           <div
             style={{
               backgroundColor: "white",
-              borderRadius: "1rem",
+              borderRadius: "0.1rem",
               padding: "0.5rem",
               boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
             }}
           >
             {!!attachments.length && (
               <>
-                <Separator />
-                <div className="font-medium">
+                <div className="font-medium flex">
                   {attachments.map((attachment) => (
-                    <PdfViewer
+                    <div
                       key={attachment}
-                      fileName={`/pdf/${attachment.url}`}
-                    />
+                      className="m-2 flex flex-col items-center justify-center"
+                    >
+                      <a
+                        href={`/pdf/${attachment.url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline text-pretty items-center justify-center"
+                      >
+                        <div className="m-2 flex flex-col items-center justify-center text-wrap">
+                          <Image
+                            src="/pdfIcon.png"
+                            width={75}
+                            height={75}
+                            alt="Picture of the author"
+                          ></Image>
+                          <span>{attachment.name}</span>
+                        </div>
+                      </a>
+                    </div>
                   ))}
                 </div>
               </>
             )}
           </div>
-          <Separator />
         </div>
 
         <div
@@ -214,7 +232,7 @@ const ChapterIdPage = async ({
           style={{
             // maxHeight: "38rem",
             border: "0.12rem solid #6d94e3",
-            borderRadius: "1rem",
+            borderRadius: "0.1rem",
             height: "auto",
             backgroundColor: "white",
             padding: "2rem",
@@ -225,7 +243,7 @@ const ChapterIdPage = async ({
           <div
             style={{
               backgroundColor: "white",
-              borderRadius: "1rem",
+              borderRadius: "0.1rem",
               padding: "0.5rem",
               boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
             }}
@@ -240,7 +258,6 @@ const ChapterIdPage = async ({
               isCompleted={!!userProgress?.isCompleted}
             />
           </div>
-          <Separator />
         </div>
       </div>
     </div>

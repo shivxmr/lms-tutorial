@@ -57,7 +57,7 @@ export const Preview = ({ value, showLanguage }: PreviewProps) => {
     <div
       style={{
         backgroundColor: "white",
-        borderRadius: "1rem",
+        borderRadius: "0.11rem",
         padding: "0.5rem",
         boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
       }}
