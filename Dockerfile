@@ -7,13 +7,11 @@ WORKDIR /usr/src/app
 
 COPY . /usr/src/app/
 
-RUN npm install -g next
-
 RUN npm install --legacy-peer-deps
 
 RUN npx prisma generate
 
-RUN npm run build
+#RUN npm run build
 
 EXPOSE 3000
 
