@@ -127,6 +127,11 @@ export const LoginForm = () => {
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow-lg sm:rounded-lg flex justify-center flex-1">
         <div className="">
           <div className="mt- flex flex-col items-center">
+            {error && (
+              <p className="text-center bg-red-300 py-2 px-3 mb-6 rounded text-sm">
+                {error}
+              </p>
+            )}
             <img src="intel.png" className="h-10 mb-5" />
             <h1 className="text-2xl xl:text-3xl font-extrabold mt-0">
               Sign In

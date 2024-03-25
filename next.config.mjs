@@ -8,6 +8,7 @@ const nextConfig = {
 			"unsplash.com",
 			"media.istockphoto.com",
 			"www.pexels.com",
+			"www.istockphoto.com",
 			"images.pexels.com",
 		],
 	},
