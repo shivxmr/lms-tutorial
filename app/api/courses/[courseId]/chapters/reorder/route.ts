@@ -9,7 +9,7 @@ export async function PUT(
 ) {
 	try {
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}

@@ -9,10 +9,10 @@ import { getLocalSession } from "@/actions/get-session";
 
 export default async function Dashboard() {
 	const session = await getLocalSession();
-	const userId = session?.session?.user?.id;
+	const userId = session?.userId;
 
 	const { completedCourses, coursesInProgress } = await getDashboardCourses(
-		userId
+		userId as string
 	);
 
 	// console.log(completedCourses, coursesInProgress);
