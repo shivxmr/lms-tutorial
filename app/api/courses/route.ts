@@ -8,7 +8,7 @@ export async function POST(req: Request) {
 	try {
 		const { title } = await req.json();
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 		if (!userId) {
 			return new NextResponse("Unauthorized", { status: 401 });
 		}
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 export async function GET() {
 	try {
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 		if (
 			!userId
 			// || !isTeacher(userId)

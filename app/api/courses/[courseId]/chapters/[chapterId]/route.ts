@@ -9,7 +9,7 @@ export async function DELETE(
 ) {
 	try {
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 		// log id
 		console.log(userId);
 		if (!userId) {
@@ -75,13 +75,13 @@ export async function PATCH(
 ) {
 	try {
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 		// log id
 		console.log(userId);
 		if (!userId) {
-		return new NextResponse("Unauthorized", { status: 401 });
+			return new NextResponse("Unauthorized", { status: 401 });
 		}
-		
+
 		const { isPublished, ...values } = await req.json();
 
 		const ownCourse = await db.course.findUnique({

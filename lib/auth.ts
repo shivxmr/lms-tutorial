@@ -32,7 +32,10 @@ export const authOptions: NextAuthOptions = {
 					},
 				});
 
-				if (!user || !(await compare(credentials.password, user.password))) {
+				if (
+					!user ||
+					!(await compare(credentials.password, user.password as string))
+				) {
 					return null;
 				}
 

@@ -9,7 +9,7 @@ import { getLocalSession } from "@/actions/get-session";
 
 export const NavbarRoutes = async ({ pathname }: any) => {
 	const session = await getLocalSession();
-	const userId = session?.session?.user?.id;
+	const userId = session?.userId;
 
 	const isTeacherPage = pathname?.startsWith("/teacher");
 	const isCoursePage = pathname?.includes("/courses");

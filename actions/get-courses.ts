@@ -22,7 +22,7 @@ export const getCourses = async ({
 }: GetCourses): Promise<CourseWithProgressWithCategory[]> => {
 	try {
 		const session = await getLocalSession();
-		const userId = session?.session?.user?.id;
+		const userId = session?.userId;
 
 		const courses = await db.course.findMany({
 			where: {
@@ -63,7 +63,10 @@ export const getCourses = async ({
 						};
 					}
 
-					const progressPercentage = await getProgress(userId, course.id);
+					const progressPercentage = await getProgress(
+						userId as string,
+						course.id
+					);
 
 					return {
 						...course,
