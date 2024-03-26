@@ -93,61 +93,59 @@ export const LoginForm = () => {
 		//     <p className="text-center font-semibold mx-4 mb-0">OR</p>
 		//   </div>
 
-		//   <a
-		//     className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
-		//     style={{ backgroundColor: "#3b5998" }}
-		//     onClick={() => signIn("google", { callbackUrl })}
-		//     role="button"
-		//   >
-		//     <img
-		//       className="pr-2"
-		//       src="/images/google.svg"
-		//       alt=""
-		//       style={{ height: "2rem" }}
-		//     />
-		//     Continue with Google
-		//   </a>
-		//   <a
-		//     className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
-		//     style={{ backgroundColor: "#55acee" }}
-		//     onClick={() => signIn("github", { callbackUrl })}
-		//     role="button"
-		//   >
-		//     <img
-		//       className="pr-2"
-		//       src="/images/github.svg"
-		//       alt=""
-		//       style={{ height: "2.2rem" }}
-		//     />
-		//     Continue with GitHub
-		//   </a>
-		// </form>
-		<div className="min-h-screen bg-white-100 text-gray-900 flex justify-center items-center">
-			<div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow-lg sm:rounded-lg flex justify-center flex-1">
-				<div className="">
-					<div className="mt- flex flex-col items-center">
-						<img
-							src="intel.png"
-							className="h-10 mb-5"
-						/>
-						<h1 className="text-2xl xl:text-3xl font-extrabold mt-0">
-							Sign In
-						</h1>
-						<div className="w-full flex-1 mt-3">
-							<div className="flex flex-col items-center">
-								<button
-									className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-blue-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
-									// onClick={handleGoogleSignUp} // Add your Google sign-up function
-								>
-									<div className="bg-white p-2 rounded-full">
-										<img
-											src="/google.png"
-											className="w-5"
-											alt="Intel Logo"
-										/>
-									</div>
-									<span className="ml-4"> Sign In with Google </span>
-								</button>
+    //   <a
+    //     className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
+    //     style={{ backgroundColor: "#3b5998" }}
+    //     onClick={() => signIn("google", { callbackUrl })}
+    //     role="button"
+    //   >
+    //     <img
+    //       className="pr-2"
+    //       src="/images/google.svg"
+    //       alt=""
+    //       style={{ height: "2rem" }}
+    //     />
+    //     Continue with Google
+    //   </a>
+    //   <a
+    //     className="px-7 py-2 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
+    //     style={{ backgroundColor: "#55acee" }}
+    //     onClick={() => signIn("github", { callbackUrl })}
+    //     role="button"
+    //   >
+    //     <img
+    //       className="pr-2"
+    //       src="/images/github.svg"
+    //       alt=""
+    //       style={{ height: "2.2rem" }}
+    //     />
+    //     Continue with GitHub
+    //   </a>
+    // </form>
+    <div className="min-h-screen bg-white-100 text-gray-900 flex justify-center items-center">
+      <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow-lg sm:rounded-lg flex justify-center flex-1">
+        <div className="">
+          <div className="mt- flex flex-col items-center">
+            {error && (
+              <p className="text-center bg-red-300 py-2 px-3 mb-6 rounded text-sm">
+                {error}
+              </p>
+            )}
+            <img src="intel.png" className="h-10 mb-5" />
+            <h1 className="text-2xl xl:text-3xl font-extrabold mt-0">
+              Sign In
+            </h1>
+            <div className="w-full flex-1 mt-3">
+              <div className="flex flex-col items-center">
+                <button
+                  className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-blue-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline"
+                  // onClick={handleGoogleSignUp} // Add your Google sign-up function
+                >
+                  <div className="bg-white p-2 rounded-full">
+                    <img src="/google.png" className="w-5" alt="Intel Logo" />
+                  </div>
+                  <span className="ml-4"> Sign In with Google </span>
+                </button>
 
 								<button
 									className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-blue-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-3"
