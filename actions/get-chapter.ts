@@ -60,6 +60,10 @@ export const getChapter = async ({
 			});
 		}
 
+		const questions = await db.questions.findMany({
+			where: { chapterId: chapterId },
+		});
+
 		const userProgress = await db.userProgress.findUnique({
 			where: {
 				userId_chapterId: {
@@ -75,6 +79,7 @@ export const getChapter = async ({
 			nextChapter,
 			userProgress,
 			purchase,
+			questions,
 		};
 	} catch (error) {
 		console.log("[GET_CHAPTER]", error);
@@ -84,6 +89,7 @@ export const getChapter = async ({
 			nextChapter: null,
 			userProgress: null,
 			purchase: null,
+			questions: null,
 		};
 	}
 };
