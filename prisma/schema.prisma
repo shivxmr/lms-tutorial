@@ -24,6 +24,11 @@ model User {
   @@map("users")
 }
 
+model Curriculum {
+  id    String @id @default(uuid())
+  title String
+}
+
 model Account {
   id                String   @id @default(cuid())
   userId            String   @map("user_id")
@@ -98,12 +103,12 @@ model Category {
 }
 
 model Attachment {
-  id   String @id @default(uuid())
-  name String
-  url  String @db.Text
+  id        String @id @default(uuid())
+  name      String
+  url       String @db.Text
   chapterId String
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -128,7 +133,7 @@ model Chapter {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  questions   Questions[]
+  questions Questions[]
 
   @@index([courseId])
 }
@@ -140,10 +145,10 @@ model UserProgress {
   chapterId String
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
-  isCompleted Boolean @default(false)
+  isCompleted    Boolean  @default(false)
   submissionLink String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   @@unique([userId, chapterId])
   @@index([chapterId])
@@ -172,38 +177,39 @@ model StripeCustomer {
   updatedAt DateTime @updatedAt
 }
 
-
 model Questions {
-  id     String @id @default(uuid())
+  id String @id @default(uuid())
 
   chapterId String
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
-  question String
+  question      String
   question_type String
 
   questionId Submissions[]
 
-  @@unique([chapterId]) 
+  @@unique([chapterId])
 }
 
 model Submissions {
-    id     String @id @default(uuid())
-    userId String
-    questionId String
-    question   Questions  @relation(fields: [questionId], references: [id])
-    answer     String?
-    submitted  Boolean
-    score      Int?
-    feedback   Feedback[]
-    @@unique([userId]) 
+  id         String     @id @default(uuid())
+  userId     String
+  questionId String
+  question   Questions  @relation(fields: [questionId], references: [id])
+  answer     String?
+  submitted  Boolean
+  score      Int?
+  feedback   Feedback[]
+
+  @@unique([userId])
 }
 
 model Feedback {
-    id            String     @id @default(uuid())
-    feedbackText  String
-    timestamp     DateTime
-    submissionId String
-    submissions   Submissions  @relation(fields: [submissionId], references: [id])
-     @@unique([submissionId])
+  id           String      @id @default(uuid())
+  feedbackText String
+  timestamp    DateTime
+  submissionId String
+  submissions  Submissions @relation(fields: [submissionId], references: [id])
+
+  @@unique([submissionId])
 }
