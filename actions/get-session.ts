@@ -11,6 +11,6 @@ export const getLocalSession = async () => {
 			userId: session?.user?.id,
 		};
 	} catch (error) {
-		console.log({ status: "fail", message: "You are not logged in" });
+		console.log({ status: "fail", message: "You are not logged in", error });
 	}
 };

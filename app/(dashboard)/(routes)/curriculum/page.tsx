@@ -1,47 +1,38 @@
-"use client"
+'use client';
 
-import { PrismaClient } from '@prisma/client';
 import { useEffect, useState } from 'react';
 
-const prisma = new PrismaClient();
+interface Curriculum {
+  id: number;
+  title: string;
+}
 
 const CurriculumPage = () => {
- 
-  const [curriculumTitle, setCurriculumTitle] = useState<string>('');
+  const [curriculums, setCurriculums] = useState<Curriculum[]>([]);
 
   useEffect(() => {
- 
-    const fetchCurriculum = async () => {
+    const fetchCurriculums = async () => {
       try {
- 
-        const curriculum = await prisma.curriculum.findFirst();
-
-        if (curriculum) {
-          setCurriculumTitle(curriculum.title);
-		  console.log(curriculum.title);
-        } else {
-          console.error('No curriculum found');
-        }
+        const response = await fetch('/api/curriculum');
+        const data = await response.json();
+        setCurriculums(data);
       } catch (error) {
-        console.error('Error fetching curriculum:', error);
+        console.error('Error fetching curriculums:', error);
       }
     };
-    
-    fetchCurriculum();
 
-    return () => {
-      prisma.$disconnect();
-    };
+    fetchCurriculums();
   }, []);
 
   return (
     <div>
-      <h1>Curriculum Title</h1>
-      {curriculumTitle ? (
-        <p>{curriculumTitle}</p>
-      ) : (
-        <p>Could not fetch title</p>
-      )}
+      <h1>Curriculum Titles:</h1>
+      <ul>
+        {curriculums.map((curriculum) => (
+          <li key={curriculum.id}>{curriculum.title}</li>
+        ))}
+      </ul>
+      End
     </div>
   );
 };
