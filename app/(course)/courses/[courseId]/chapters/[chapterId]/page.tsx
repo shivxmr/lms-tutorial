@@ -239,19 +239,19 @@ const ChapterIdPage = async ({
             borderRadius: "0.1rem",
             height: "auto",
             backgroundColor: "white",
-            padding: "2rem",
+            padding: "0rem",
             margin: "2rem 1.75rem 1.75rem 1.75rem",
             boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
           }}
         >
-          <div
+          {/* <div
             style={{
               backgroundColor: "white",
               borderRadius: "0.1rem",
               padding: "0.5rem",
               boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
             }}
-          >
+          > */}
             <SubmissionForm
               courseId={params.courseId}
               chapterId={params.chapterId}
@@ -262,7 +262,7 @@ const ChapterIdPage = async ({
               nextChapterId={nextChapter?.id}
               isCompleted={!!userProgress?.isCompleted}
             />
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </div>

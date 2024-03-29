@@ -90,13 +90,12 @@ export const SubmissionForm = ({
     const fetchQuestions = async () => {
       try {
         const fetchedQuestions = await getQuestions({ chapterId });
+        setIsLoading(false);
         setQuestions(fetchedQuestions);
         console.log("fetch questions: ", questions);
         console.log("chapterId: ", chapterId);
       } catch (error) {
         console.log("[GET_QUESTIONS]", error);
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -141,7 +140,7 @@ export const SubmissionForm = ({
           <Button
             onClick={toggleEdit}
             variant="ghost"
-            className="font-large  w-full"
+            className="font-large w-full h-full"
           >
             <>
               <Plus className="mr-2 w-6" />
@@ -200,7 +199,14 @@ export const SubmissionForm = ({
                                 disabled={!isValid || isSubmitting}
                                 type="submit"
                               >
-                                Save
+                                {isSubmitting ? (
+                                  <div className="flex items-center justify-center space-x-2">
+                                    <span>Saving...</span>
+                                    <Circle size={18} strokeWidth={2} />
+                                  </div>
+                                ) : (
+                                  "Save"
+                                )}
                               </Button>
                             </div>
                           </div>
@@ -237,7 +243,14 @@ export const SubmissionForm = ({
                                 disabled={!isValid || isSubmitting}
                                 type="submit"
                               >
-                                Save
+                                {isSubmitting ? (
+                                  <div className="flex items-center justify-center space-x-2">
+                                    <span>Saving...</span>
+                                    <Circle size={18} strokeWidth={2} />
+                                  </div>
+                                ) : (
+                                  "Save"
+                                )}
                               </Button>
                             </div>
                           </div>
