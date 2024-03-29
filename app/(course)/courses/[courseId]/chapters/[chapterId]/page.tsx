@@ -203,7 +203,7 @@ const ChapterIdPage = async ({
                 <div className="font-medium flex">
                   {attachments.map((attachment) => (
                     <div
-                      key={attachment}
+                      key={attachment.id}
                       className="m-2 flex flex-col items-center justify-center"
                     >
                       <a
