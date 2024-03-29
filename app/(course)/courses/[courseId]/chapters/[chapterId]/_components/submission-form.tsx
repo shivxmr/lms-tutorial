@@ -21,7 +21,13 @@ import { useConfettiStore } from "@/hooks/use-confetti-store";
 import { getQuestions } from "@/actions/get-questions";
 
 import { Plus } from "lucide-react";
+import { Circle } from "lucide-react";
 import { Separator } from "@radix-ui/react-separator";
+import { Loader2 } from "lucide-react";
+
+export const Icons = {
+  spinner: Loader2,
+};
 
 interface SubmissionFormProps {
   initialData: {
@@ -66,6 +72,7 @@ export const SubmissionForm = ({
 }: SubmissionFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [questions, setQuestions] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const confetti = useConfettiStore();
   const toggleEdit = () => setIsEditing((current) => !current);
 
@@ -79,6 +86,7 @@ export const SubmissionForm = ({
   const { isSubmitting, isValid } = form.formState;
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchQuestions = async () => {
       try {
         const fetchedQuestions = await getQuestions({ chapterId });
@@ -87,6 +95,8 @@ export const SubmissionForm = ({
         console.log("chapterId: ", chapterId);
       } catch (error) {
         console.log("[GET_QUESTIONS]", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -142,101 +152,106 @@ export const SubmissionForm = ({
           </Button>
         ) : null}
       </div>
-      {!isEditing && <p className="text-sm">{initialData.submissionLink}</p>}
+      {/* {!isEditing && <p className="text-sm">{initialData.submissionLink}</p>} */}
       {isEditing && (
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 m-4"
-          >
-            {questions.map((question, index) => (
-              <div key={index}>
-                {question.question_type === "text" && (
-                  <>
-                    <div className="bg-neutral-100 p-3 rounded-md">
-                      <h1 className="mb-2 mt-0 font-bold text-2xl">
-                        Writing Exercise
-                      </h1>
-                      <h1 className="my-2 font-light text-lg">
-                        {question.question}
-                      </h1>
-                      <FormField
-                        control={form.control}
-                        name={`questions[${index}].answer`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <Input
-                                disabled={isSubmitting}
-                                placeholder="Type your answer here..."
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      {/* <textarea className="block p-2.5 w-full h-48 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea> */}
-                      <div className="flex mt-4 items-center gap-x-2 place-content-between">
-                        <div className="flex items-center gap-x-2">
-                          <Button>Evaluate</Button>
-                          <Button
-                            disabled={!isValid || isSubmitting}
-                            type="submit"
-                          >
-                            Save
-                          </Button>
+          {isLoading ? ( // Render loader if isLoading is true
+            <div className="flex justify-center my-4">
+              <Icons.spinner className="h-6 w-6 animate-spin" />
+            </div>
+          ) : (
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 m-4"
+            >
+              {questions.map((question, index) => (
+                <>
+                  <div key={index}>
+                    {question.question_type === "text" && (
+                      <>
+                        <div className="bg-neutral-100 p-3 rounded-md">
+                          <h1 className="mb-2 mt-0 font-bold text-2xl">
+                            Writing Exercise
+                          </h1>
+                          <h1 className="my-2 font-light text-lg">
+                            {question.question}
+                          </h1>
+                          <FormField
+                            control={form.control}
+                            name={`questions[${index}].answer`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <Input
+                                    disabled={isSubmitting}
+                                    placeholder="Type your answer here..."
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          {/* <textarea className="block p-2.5 w-full h-48 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea> */}
+                          <div className="flex mt-4 items-center gap-x-2 place-content-between">
+                            <div className="flex items-center gap-x-2">
+                              <Button>Evaluate</Button>
+                              <Button
+                                disabled={!isValid || isSubmitting}
+                                type="submit"
+                              >
+                                Save
+                              </Button>
+                            </div>
+                          </div>
                         </div>
-                        <Button onClick={toggleEdit} variant="ghost">
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  </>
-                )}
-                {question.question_type === "code" && (
-                  <>
-                    <div className="bg-neutral-100 p-3 rounded-md">
-                      <h1 className="mb-2 mt-0 font-bold text-2xl">
-                        Coding Exercise
-                      </h1>
-                      <h1 className="my-2 font-light text-lg">
-                        {question.question}
-                      </h1>
-                      <FormField
-                        control={form.control}
-                        name={`questions[${index}].answer`}
-                        render={({ field }) => (
-                          <FormItem>
-                            <code>
-                              <textarea
-                                className="block p-2.5 w-full h-48 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
-                                placeholder="Code here"
-                              ></textarea>
-                            </code>
-                          </FormItem>
-                        )}
-                      />
-                      <div className="flex mt-4 items-center gap-x-2 place-content-between">
-                        <div className="flex items-center gap-x-2">
-                          <Button>Evaluate</Button>
-                          <Button
-                            disabled={!isValid || isSubmitting}
-                            type="submit"
-                          >
-                            Save
-                          </Button>
+                      </>
+                    )}
+                    {question.question_type === "code" && (
+                      <>
+                        <div className="bg-neutral-100 p-3 rounded-md">
+                          <h1 className="mb-2 mt-0 font-bold text-2xl">
+                            Coding Exercise
+                          </h1>
+                          <h1 className="my-2 font-light text-lg">
+                            {question.question}
+                          </h1>
+                          <FormField
+                            control={form.control}
+                            name={`questions[${index}].answer`}
+                            render={({ field }) => (
+                              <FormItem>
+                                <code>
+                                  <textarea
+                                    className="block p-2.5 w-full h-48 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
+                                    placeholder="Code here"
+                                  ></textarea>
+                                </code>
+                              </FormItem>
+                            )}
+                          />
+                          <div className="flex mt-4 items-center gap-x-2 place-content-between">
+                            <div className="flex items-center gap-x-2">
+                              <Button>Evaluate</Button>
+                              <Button
+                                disabled={!isValid || isSubmitting}
+                                type="submit"
+                              >
+                                Save
+                              </Button>
+                            </div>
+                          </div>
                         </div>
-                        <Button onClick={toggleEdit} variant="ghost">
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  </>
-                )}
+                      </>
+                    )}
+                  </div>
+                </>
+              ))}
+              <div className="w-full flex flex-row-reverse">
+                <Button onClick={toggleEdit}>Close Submissions</Button>
               </div>
-            ))}
-          </form>
+            </form>
+          )}
         </Form>
       )}
     </>
