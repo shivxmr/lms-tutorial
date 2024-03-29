@@ -16,9 +16,9 @@ import PdfViewer from "@/components/pdfViewer";
 import { getLocalSession } from "@/actions/get-session";
 
 const ChapterIdPage = async ({
-	params,
+  params,
 }: {
-	params: { courseId: string; chapterId: string };
+  params: { courseId: string; chapterId: string };
 }) => {
   const session = await getLocalSession();
   const userId = session?.userId;
@@ -26,57 +26,54 @@ const ChapterIdPage = async ({
     return redirect("/");
   }
 
-	const { chapter, course, nextChapter, userProgress, purchase } =
-		await getChapter({
-			userId,
-			chapterId: params.chapterId,
-			courseId: params.courseId,
-		});
+  const { chapter, course, nextChapter, userProgress, purchase } =
+    await getChapter({
+      userId,
+      chapterId: params.chapterId,
+      courseId: params.courseId,
+    });
 
-	if (!chapter || !course) {
-		return redirect("/");
-	}
+  if (!chapter || !course) {
+    return redirect("/");
+  }
 
-	const getTime = (time: any) => {
-		const durationSec = time / 1000;
+  const getTime = (time: any) => {
+    const durationSec = time / 1000;
 
-		// Extract hours, minutes, seconds, and milliseconds
-		const hours = Math.floor(durationSec / 3600);
-		const minutes = Math.floor((durationSec % 3600) / 60);
-		const seconds = Math.floor(durationSec % 60);
-		const milliseconds = Math.floor(durationSec % 1000);
+    // Extract hours, minutes, seconds, and milliseconds
+    const hours = Math.floor(durationSec / 3600);
+    const minutes = Math.floor((durationSec % 3600) / 60);
+    const seconds = Math.floor(durationSec % 60);
+    const milliseconds = Math.floor(durationSec % 1000);
 
-		// Format the time as HH:MM:SS.MMM
-		// const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-		//   .toString()
-		//   .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds
-		//   .toString()
-		//   .padStart(3, "0")}`;
-		const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-			.toString()
-			.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    // Format the time as HH:MM:SS.MMM
+    // const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+    //   .toString()
+    //   .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds
+    //   .toString()
+    //   .padStart(3, "0")}`;
+    const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-		return formattedTime;
-	};
+    return formattedTime;
+  };
 
-	const { attachments } = await getAttachments({
-		chapterId: params.chapterId,
-		courseId: params.courseId,
-	});
-	console.log(attachments);
+  const { attachments } = await getAttachments({
+    chapterId: params.chapterId,
+    courseId: params.courseId,
+  });
+  console.log(attachments);
 
-	const isLocked = !chapter.isFree && !purchase;
-	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
+  const isLocked = !chapter.isFree && !purchase;
+  const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
-	return (
-		<div className="pb-10">
-			{userProgress?.isCompleted && (
-				<Banner
-					variant="success"
-					label="You already completed this chapter."
-				/>
-			)}
-			{/* {isLocked && (
+  return (
+    <div className="pb-10">
+      {userProgress?.isCompleted && (
+        <Banner variant="success" label="You already completed this chapter." />
+      )}
+      {/* {isLocked && (
 				<Banner
 					variant="warning"
 					label="You need to purchase this course to watch this chapter."
@@ -210,7 +207,7 @@ const ChapterIdPage = async ({
                         href={`/pdf/${attachment.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline text-pretty items-center justify-center"
+                        className="text-black-500 hover:underline text-pretty items-center justify-center"
                       >
                         <div className="m-2 flex flex-col items-center justify-center text-wrap">
                           <Image
@@ -219,7 +216,11 @@ const ChapterIdPage = async ({
                             height={75}
                             alt="Picture of the author"
                           ></Image>
-                          <span>{attachment.name}</span>
+                          <span>
+                            {attachment.name.length > 15
+                              ? attachment.name.substring(0, 13) + " ...."
+                              : attachment.name}
+                          </span>
                         </div>
                       </a>
                     </div>
@@ -256,6 +257,7 @@ const ChapterIdPage = async ({
               chapterId={params.chapterId}
               initialData={{
                 submissionLink: "",
+                questions: [{ answer: "" }], // Provide an array of objects with a string value for answer
               }}
               nextChapterId={nextChapter?.id}
               isCompleted={!!userProgress?.isCompleted}

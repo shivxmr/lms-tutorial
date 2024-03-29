@@ -184,7 +184,7 @@ model Questions {
 
   questionId Submissions[]
 
-  @@unique([chapterId]) 
+  @@unique([id]) 
 }
 
 model Submissions {
