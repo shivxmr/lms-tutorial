@@ -218,7 +218,7 @@ const ChapterIdPage = async ({
                           ></Image>
                           <span>
                             {attachment.name.length > 15
-                              ? attachment.name.substring(0, 13) + " ...."
+                              ? attachment.name.substring(0, 13) + "...."
                               : attachment.name}
                           </span>
                         </div>
@@ -244,25 +244,16 @@ const ChapterIdPage = async ({
             boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
           }}
         >
-          {/* <div
-            style={{
-              backgroundColor: "white",
-              borderRadius: "0.1rem",
-              padding: "0.5rem",
-              boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
+          <SubmissionForm
+            courseId={params.courseId}
+            chapterId={params.chapterId}
+            initialData={{
+              submissionLink: "",
+              questions: [{ answer: "" }],
             }}
-          > */}
-            <SubmissionForm
-              courseId={params.courseId}
-              chapterId={params.chapterId}
-              initialData={{
-                submissionLink: "",
-                questions: [{ answer: "" }], // Provide an array of objects with a string value for answer
-              }}
-              nextChapterId={nextChapter?.id}
-              isCompleted={!!userProgress?.isCompleted}
-            />
-          {/* </div> */}
+            nextChapterId={nextChapter?.id}
+            isCompleted={!!userProgress?.isCompleted}
+          />
         </div>
       </div>
     </div>

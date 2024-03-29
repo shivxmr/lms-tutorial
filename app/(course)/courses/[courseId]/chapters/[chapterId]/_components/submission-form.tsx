@@ -156,7 +156,8 @@ export const SubmissionForm = ({
         <Form {...form}>
           {isLoading ? ( // Render loader if isLoading is true
             <div className="flex justify-center my-4">
-              <Icons.spinner className="h-6 w-6 animate-spin" />
+              <Icons.spinner className="h-6 w-6 animate-spin mr-3" />
+              {"Loading Exercises"}
             </div>
           ) : (
             <form
@@ -270,12 +271,3 @@ export const SubmissionForm = ({
     </>
   );
 };
-
-// questions = [
-//   {
-//     id: "5a3d9cc4-01d1-44c9-a334-f24f0d3a17e1",
-//     chapterId: "0eecd864-200d-439b-a194-440796be10b6",
-//     question: "Write a summary on RAG",
-//     question_type: "text",
-//   },
-// ];
