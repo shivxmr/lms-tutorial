@@ -100,7 +100,7 @@ const ChapterIdPage = async ({
           className="flex flex-col mx-auto px-10 mt-10 pb-20"
           style={{
             // maxHeight: "38rem",
-            border: "0.12rem solid #9e9e9e",
+            border: "0.12rem solid #e3e3e3",
             borderRadius: "0.1rem",
             height: "auto",
             // backgroundColor: "#cfe5ff",
@@ -110,7 +110,7 @@ const ChapterIdPage = async ({
             boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
           }}
         >
-          <div className="grid grid-cols-2 gap-x-5 mb-7">
+          <div className="grid grid-cols-2 gap-x-5 mb-3">
             <VideoPlayer
               // chapterId={params.chapterId}
               // title={chapter.title}
@@ -142,7 +142,7 @@ const ChapterIdPage = async ({
                     <input
                       type="search"
                       id="default-search"
-                      className="w-full px-4 py-3 ps-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-500 hover:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 transition-all"
+                      className="w-full px-4 py-3 ps-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 hover:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 transition-all"
                       placeholder="Search"
                       required
                     />
@@ -174,7 +174,7 @@ const ChapterIdPage = async ({
                     <>
                       {res.map((response) => (
                         <div
-                          className="flex border-solid border-y border-blue-50 hover:border-blue-300 transition-all ease-out"
+                          className="flex border-solid border-y border-blue-50 hover:border-blue-500 transition-all ease-out"
                           key={response.offset}
                         >
                           <div
@@ -217,7 +217,7 @@ const ChapterIdPage = async ({
               className="flex flex-col mx-auto px-10 mt-10 pb-20"
               style={{
                 // maxHeight: "38rem",
-                border: "0.12rem solid #9e9e9e",
+                border: "0.12rem solid #e3e3e3",
                 borderRadius: "0.1rem",
                 height: "auto",
                 backgroundColor: "white",
@@ -267,30 +267,16 @@ const ChapterIdPage = async ({
             </div>
           </>
         )}
-        <div
-          className="flex flex-col mx-auto px-10 mt-10 pb-20"
-          style={{
-            // maxHeight: "38rem",
-            border: "0.12rem solid #9e9e9e",
-            borderRadius: "0.1rem",
-            height: "auto",
-            backgroundColor: "white",
-            padding: "0rem",
-            margin: "2rem 1.75rem 1.75rem 1.75rem",
-            boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
+        <SubmissionForm
+          courseId={params.courseId}
+          chapterId={params.chapterId}
+          initialData={{
+            submissionLink: "",
+            questions: [{ answer: "" }],
           }}
-        >
-          <SubmissionForm
-            courseId={params.courseId}
-            chapterId={params.chapterId}
-            initialData={{
-              submissionLink: "",
-              questions: [{ answer: "" }],
-            }}
-            nextChapterId={nextChapter?.id}
-            isCompleted={!!userProgress?.isCompleted}
-          />
-        </div>
+          nextChapterId={nextChapter?.id}
+          isCompleted={!!userProgress?.isCompleted}
+        />
       </div>
     </div>
   );

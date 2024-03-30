@@ -135,20 +135,26 @@ export const SubmissionForm = ({
 
   return (
     <>
+      {/* <div className="w-full flex flex-row-reverse bg-transparent">
+        <Button
+          onClick={toggleEdit}
+          // size="sm"
+          className="w-24 md:w-auto px-2"
+        >
+          Submissions
+        </Button>
+      </div> */}
       <div className="font-big flex items-center justify-center">
         {!isEditing ? (
-          <Button
-            onClick={toggleEdit}
-            variant="ghost"
-            className="font-large w-full h-full"
-          >
-            <>
-              <Plus className="mr-2 w-6" />
-              <h1 className="text-lg color-gray p-2 mb-0">
-                Submit your work here
-              </h1>
-            </>
-          </Button>
+          <div className="w-full flex flex-row-reverse bg-transparent mr-7">
+            <Button
+              onClick={toggleEdit}
+              // variant="ghost"
+              // className="font-large w-full h-full"
+            >
+              Submissions
+            </Button>
+          </div>
         ) : null}
       </div>
       {/* {!isEditing && <p className="text-sm">{initialData.submissionLink}</p>} */}
@@ -157,111 +163,124 @@ export const SubmissionForm = ({
           {isLoading ? ( // Render loader if isLoading is true
             <div className="flex justify-center my-4">
               <Icons.spinner className="h-6 w-6 animate-spin mr-3" />
-              {"Loading Exercises"}
+              {"Loading Submissions"}
             </div>
           ) : (
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 m-4"
+              className="space-y-4 m-4 mt-2"
             >
-              {questions.map((question, index) => (
-                <>
-                  <div key={index}>
-                    {question.question_type === "text" && (
-                      <>
-                        <div className="bg-neutral-100 p-3 rounded-md">
-                          <h1 className="mb-2 mt-0 font-bold text-2xl">
-                            Writing Exercise
-                          </h1>
-                          <h1 className="my-2 font-light text-lg">
-                            {question.question}
-                          </h1>
-                          <FormField
-                            control={form.control}
-                            name={`questions[${index}].answer`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormControl>
-                                  <Input
-                                    disabled={isSubmitting}
-                                    placeholder="Type your answer here..."
-                                    {...field}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                          <div className="flex mt-4 items-center gap-x-2 place-content-between">
-                            <div className="flex items-center gap-x-2">
-                              <Button>Evaluate</Button>
-                              <Button
-                                disabled={!isValid || isSubmitting}
-                                type="submit"
-                              >
-                                {isSubmitting ? (
-                                  <div className="flex items-center justify-center space-x-2">
-                                    <span>Saving...</span>
-                                    <Circle size={18} strokeWidth={2} />
-                                  </div>
-                                ) : (
-                                  "Save"
-                                )}
-                              </Button>
+              <div
+                className="flex flex-col mx-auto px-10 mt-10 pb-20"
+                style={{
+                  // maxHeight: "38rem",
+                  border: "0.12rem solid #e3e3e3",
+                  height: "auto",
+                  backgroundColor: "white",
+                  padding: "1rem",
+                  margin: "0rem 0.8rem 0.8rem 0.8rem",
+                  boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
+                }}
+              >
+                {questions.map((question, index) => (
+                  <>
+                    <div key={index}>
+                      {question.question_type === "text" && (
+                        <>
+                          <div className="bg-neutral-100 p-3 rounded-md">
+                            <h1 className="mb-2 mt-0 font-bold text-2xl">
+                              Writing Exercise
+                            </h1>
+                            <h1 className="my-2 font-light text-lg">
+                              {question.question}
+                            </h1>
+                            <FormField
+                              control={form.control}
+                              name={`questions[${index}].answer`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormControl>
+                                    <Input
+                                      disabled={isSubmitting}
+                                      placeholder="Type your answer here..."
+                                      {...field}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <div className="flex mt-4 items-center gap-x-2 place-content-between">
+                              <div className="flex items-center gap-x-2">
+                                <Button>Evaluate</Button>
+                                <Button
+                                  disabled={!isValid || isSubmitting}
+                                  type="submit"
+                                >
+                                  {isSubmitting ? (
+                                    <div className="flex items-center justify-center space-x-2">
+                                      <span>Saving...</span>
+                                      <Circle size={18} strokeWidth={2} />
+                                    </div>
+                                  ) : (
+                                    "Save"
+                                  )}
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    )}
-                    {question.question_type === "code" && (
-                      <>
-                        <div className="bg-neutral-100 p-3 rounded-md">
-                          <h1 className="mb-2 mt-0 font-bold text-2xl">
-                            Coding Exercise
-                          </h1>
-                          <h1 className="my-2 font-light text-lg">
-                            {question.question}
-                          </h1>
-                          <FormField
-                            control={form.control}
-                            name={`questions[${index}].answer`}
-                            render={({ field }) => (
-                              <FormItem>
-                                <code>
-                                  <textarea
-                                    className="block p-2.5 w-full h-48 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
-                                    placeholder="Code here"
-                                  ></textarea>
-                                </code>
-                              </FormItem>
-                            )}
-                          />
-                          <div className="flex mt-4 items-center gap-x-2 place-content-between">
-                            <div className="flex items-center gap-x-2">
-                              <Button>Evaluate</Button>
-                              <Button
-                                disabled={!isValid || isSubmitting}
-                                type="submit"
-                              >
-                                {isSubmitting ? (
-                                  <div className="flex items-center justify-center space-x-2">
-                                    <span>Saving...</span>
-                                    <Circle size={18} strokeWidth={2} />
-                                  </div>
-                                ) : (
-                                  "Save"
-                                )}
-                              </Button>
+                        </>
+                      )}
+                      {question.question_type === "code" && (
+                        <>
+                          <div className="bg-neutral-100 p-3 rounded-md">
+                            <h1 className="mb-2 mt-0 font-bold text-2xl">
+                              Coding Exercise
+                            </h1>
+                            <h1 className="my-2 font-light text-lg">
+                              {question.question}
+                            </h1>
+                            <FormField
+                              control={form.control}
+                              name={`questions[${index}].answer`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <code>
+                                    <textarea
+                                      className="block p-2.5 w-full h-48 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
+                                      placeholder="Code here"
+                                    ></textarea>
+                                  </code>
+                                </FormItem>
+                              )}
+                            />
+                            <div className="flex mt-4 items-center gap-x-2 place-content-between">
+                              <div className="flex items-center gap-x-2">
+                                <Button>Evaluate</Button>
+                                <Button
+                                  disabled={!isValid || isSubmitting}
+                                  type="submit"
+                                >
+                                  {isSubmitting ? (
+                                    <div className="flex items-center justify-center space-x-2">
+                                      <span>Saving...</span>
+                                      <Circle size={18} strokeWidth={2} />
+                                    </div>
+                                  ) : (
+                                    "Save"
+                                  )}
+                                </Button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </>
-              ))}
-              <div className="w-full flex flex-row-reverse">
-                <Button onClick={toggleEdit}>Close Submissions</Button>
+                        </>
+                      )}
+                    </div>
+                  </>
+                ))}
+                <div className="w-full flex flex-row-reverse pt-2">
+                  <Button onClick={toggleEdit}>Close Submissions</Button>
+                </div>
               </div>
             </form>
           )}
