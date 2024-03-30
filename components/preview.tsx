@@ -64,8 +64,11 @@ export const Preview = ({ value, showLanguage }: PreviewProps) => {
     >
       {showLanguage && (
         <>
-          <div className="flex flex-row font-medium">
-            <h1 className="text-2xl my-4 mx-4 mb-2">Description</h1>
+          <div>
+            <ReactQuill value={translateValue} readOnly={true} theme="bubble" />
+          </div>
+          <div className="flex flex-row font-medium p-0">
+            {/* <h1 className="text-2xl my-4 mx-4 mb-2">Description</h1> */}
             <Select
               options={languageOptions}
               value={
@@ -74,11 +77,8 @@ export const Preview = ({ value, showLanguage }: PreviewProps) => {
               }
               onChange={handleLanguageChange}
               placeholder="Select language..."
-              className="ml-auto my-4 mx-4 mb-3"
+              className="ml-auto mx-4 mb-3"
             />
-          </div>
-          <div>
-            <ReactQuill value={translateValue} readOnly={true} theme="bubble" />
           </div>
         </>
       )}
