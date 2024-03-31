@@ -135,29 +135,13 @@ export const SubmissionForm = ({
 
   return (
     <>
-      {/* <div className="w-full flex flex-row-reverse bg-transparent">
-        <Button
-          onClick={toggleEdit}
-          // size="sm"
-          className="w-24 md:w-auto px-2"
-        >
-          Submissions
-        </Button>
-      </div> */}
       <div className="font-big flex items-center justify-center">
         {!isEditing ? (
           <div className="w-full flex flex-row-reverse bg-transparent mr-7">
-            <Button
-              onClick={toggleEdit}
-              // variant="ghost"
-              // className="font-large w-full h-full"
-            >
-              Submissions
-            </Button>
+            <Button onClick={toggleEdit}>Submissions</Button>
           </div>
         ) : null}
       </div>
-      {/* {!isEditing && <p className="text-sm">{initialData.submissionLink}</p>} */}
       {isEditing && (
         <Form {...form}>
           {isLoading ? ( // Render loader if isLoading is true
@@ -170,20 +154,29 @@ export const SubmissionForm = ({
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-4 m-4 mt-2"
             >
-              <div
-                className="flex flex-col mx-auto px-10 mt-10 pb-20"
-                style={{
-                  // maxHeight: "38rem",
-                  border: "0.12rem solid #e3e3e3",
-                  height: "auto",
-                  backgroundColor: "white",
-                  padding: "1rem",
-                  margin: "0rem 0.8rem 0.8rem 0.8rem",
-                  boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
-                }}
-              >
-                {questions.map((question, index) => (
-                  <>
+              {questions.length === 0 ? ( // Corrected condition
+                <>
+                  <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-xl">No submissions found</h1>
+                  </div>
+                  <div className="w-full flex flex-row-reverse pt-2">
+                    <Button onClick={toggleEdit}>Close Submissions</Button>
+                  </div>
+                </>
+              ) : (
+                <div
+                  className="flex flex-col mx-auto px-10 mt-10 pb-20"
+                  style={{
+                    // maxHeight: "38rem",
+                    border: "0.12rem solid #e3e3e3",
+                    height: "auto",
+                    backgroundColor: "white",
+                    padding: "1rem",
+                    margin: "0rem 0.8rem 0.8rem 0.8rem",
+                    boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
+                  }}
+                >
+                  {questions.map((question, index) => (
                     <div key={index}>
                       {question.question_type === "text" && (
                         <>
@@ -276,12 +269,12 @@ export const SubmissionForm = ({
                         </>
                       )}
                     </div>
-                  </>
-                ))}
-                <div className="w-full flex flex-row-reverse pt-2">
-                  <Button onClick={toggleEdit}>Close Submissions</Button>
+                  ))}
+                  <div className="w-full flex flex-row-reverse pt-2">
+                    <Button onClick={toggleEdit}>Close Submissions</Button>
+                  </div>
                 </div>
-              </div>
+              )}
             </form>
           )}
         </Form>
