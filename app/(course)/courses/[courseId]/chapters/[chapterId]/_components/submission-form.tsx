@@ -182,7 +182,7 @@ export const SubmissionForm = ({
                         <>
                           <div className="bg-neutral-100 p-3 rounded-md">
                             <h1 className="mb-2 mt-0 font-bold text-2xl">
-                              Writing Exercise
+                              Theoretical Exercise
                             </h1>
                             <h1 className="my-2 font-light text-lg">
                               {question.question}
