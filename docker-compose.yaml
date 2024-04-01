@@ -15,12 +15,34 @@ services:
       - 7010:3000
     depends_on:
       - db
+      - prisma-studio
     links:
       - db
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
+
+  prisma-studio:
+    links:
+      - db
+    depends_on:
+      - db
+    build:
+      context: ./docker/prismaStudio
+      dockerfile: Dockerfile
+      args:
+        http_proxy: http://proxy01.iind.intel.com:911/
+        https_proxy: http://proxy01.iind.intel.com:912/
+        HTTP_PROXY: http://proxy01.iind.intel.com:911/
+        HTTPS_PROXY: http://proxy01.iind.intel.com:912/
+    container_name: prisma-studio
+    restart: unless-stopped
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./prisma:/app/prisma
+
 
   db:
     image: mysql:8.0
