@@ -7,29 +7,26 @@ import { columns } from "./_components/columns";
 import { getLocalSession } from "@/actions/get-session";
 
 const CoursesPage = async () => {
-	const session = await getLocalSession();
-	const userId = session?.userId;
-	if (!userId) {
-		return redirect("/");
-	}
+  const session = await getLocalSession();
+  const userId = session?.userId;
+  if (!userId) {
+    return redirect("/");
+  }
 
-	const courses = await db.course.findMany({
-		where: {
-			userId,
-		},
-		orderBy: {
-			createdAt: "desc",
-		},
-	});
+  const courses = await db.course.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-	return (
-		<div className="p-6">
-			<DataTable
-				columns={columns}
-				data={courses}
-			/>
-		</div>
-	);
+  return (
+    <div className="p-6">
+      <DataTable columns={columns} data={courses} />
+    </div>
+  );
 };
 
 export default CoursesPage;

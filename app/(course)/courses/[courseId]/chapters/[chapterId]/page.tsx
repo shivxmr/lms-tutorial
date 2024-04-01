@@ -100,7 +100,7 @@ const ChapterIdPage = async ({
           className="flex flex-col mx-auto px-10 mt-10 pb-20"
           style={{
             // maxHeight: "38rem",
-            border: "0.12rem solid #6d94e3",
+            border: "0.12rem solid #e3e3e3",
             borderRadius: "0.1rem",
             height: "auto",
             // backgroundColor: "#cfe5ff",
@@ -110,7 +110,7 @@ const ChapterIdPage = async ({
             boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
           }}
         >
-          <div className="grid grid-cols-2 gap-x-5 mb-7">
+          <div className="grid grid-cols-2 gap-x-5 mb-3">
             <VideoPlayer
               // chapterId={params.chapterId}
               // title={chapter.title}
@@ -131,28 +131,66 @@ const ChapterIdPage = async ({
                   borderRadius: "0.1rem",
                 }}
               >
+                <form className="max-w-100 mx-1 mb-3">
+                  <label
+                    // for="default-search"
+                    className="text-sm font-medium text-gray-900 sr-only dark:text-white"
+                  >
+                    Search
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="search"
+                      id="default-search"
+                      className="w-full px-4 py-3 ps-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 hover:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 transition-all"
+                      placeholder="Search"
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className="text-white absolute end-2.5 bottom-2.5 bg-black hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 transition-all"
+                    >
+                      {/* <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"> */}
+                      <svg
+                        className="w-3 h-3 text-gray-500 dark:text-gray-400"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          stroke="white"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </form>
                 {YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
                   (res) => (
                     <>
                       {res.map((response) => (
                         <div
-                          className="flex border-solid border-y border-blue-50 hover:border-blue-300 transition-all ease-out"
+                          className="flex border-solid border-y border-blue-50 hover:border-blue-500 transition-all ease-out"
                           key={response.offset}
                         >
                           <div
                             style={{
-                              width: "5rem",
-                              padding: "0.1rem 0rem 0.1rem 0.5rem",
+                              width: "70px",
+                              padding: "0.1rem 0.1rem 0.1rem 0.5rem",
                             }}
                           >
-                            <span className="text-gray font-medium font-bold">
+                            <div className="text-gray font-medium font-bold">
                               {getTime(response?.duration + response?.offset)}
-                            </span>
+                            </div>
                           </div>
                           <div>
-                            <span className=" ml-3 font-medium">
+                            <div className="pl-3 font-medium text-wrap">
                               {response?.text}
-                            </span>
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -173,30 +211,29 @@ const ChapterIdPage = async ({
             </div>
           )}
         </div>
-
-        <div
-          className="flex flex-col mx-auto px-10 mt-10 pb-20"
-          style={{
-            // maxHeight: "38rem",
-            border: "0.12rem solid #6d94e3",
-            borderRadius: "0.1rem",
-            height: "auto",
-            backgroundColor: "white",
-            padding: "2rem",
-            margin: "2rem 1.75rem 1.75rem 1.75rem",
-            boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              borderRadius: "0.1rem",
-              padding: "0.5rem",
-              boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
-            }}
-          >
-            {!!attachments.length && (
-              <>
+        {!!attachments.length && (
+          <>
+            <div
+              className="flex flex-col mx-auto px-10 mt-10 pb-20"
+              style={{
+                // maxHeight: "38rem",
+                border: "0.12rem solid #e3e3e3",
+                borderRadius: "0.1rem",
+                height: "auto",
+                backgroundColor: "white",
+                padding: "2rem",
+                margin: "2rem 1.75rem 1.75rem 1.75rem",
+                boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: "0.1rem",
+                  padding: "0.5rem",
+                  boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
+                }}
+              >
                 <div className="font-medium flex">
                   {attachments.map((attachment) => (
                     <div
@@ -218,7 +255,7 @@ const ChapterIdPage = async ({
                           ></Image>
                           <span>
                             {attachment.name.length > 15
-                              ? attachment.name.substring(0, 13) + "...."
+                              ? attachment.name.substring(0, 15) + "...."
                               : attachment.name}
                           </span>
                         </div>
@@ -226,35 +263,20 @@ const ChapterIdPage = async ({
                     </div>
                   ))}
                 </div>
-              </>
-            )}
-          </div>
-        </div>
-
-        <div
-          className="flex flex-col mx-auto px-10 mt-10 pb-20"
-          style={{
-            // maxHeight: "38rem",
-            border: "0.12rem solid #6d94e3",
-            borderRadius: "0.1rem",
-            height: "auto",
-            backgroundColor: "white",
-            padding: "0rem",
-            margin: "2rem 1.75rem 1.75rem 1.75rem",
-            boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
+              </div>
+            </div>
+          </>
+        )}
+        <SubmissionForm
+          courseId={params.courseId}
+          chapterId={params.chapterId}
+          initialData={{
+            submissionLink: "",
+            questions: [{ answer: "" }],
           }}
-        >
-          <SubmissionForm
-            courseId={params.courseId}
-            chapterId={params.chapterId}
-            initialData={{
-              submissionLink: "",
-              questions: [{ answer: "" }],
-            }}
-            nextChapterId={nextChapter?.id}
-            isCompleted={!!userProgress?.isCompleted}
-          />
-        </div>
+          nextChapterId={nextChapter?.id}
+          isCompleted={!!userProgress?.isCompleted}
+        />
       </div>
     </div>
   );

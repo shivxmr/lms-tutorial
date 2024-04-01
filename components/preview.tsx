@@ -54,34 +54,39 @@ export const Preview = ({ value, showLanguage }: PreviewProps) => {
   }, [selectedLanguage]);
 
   return (
-    <div
-      style={{
-        backgroundColor: "white",
-        borderRadius: "0.11rem",
-        padding: "0.5rem",
-        boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
-      }}
-    >
-      {showLanguage && (
-        <>
-          <div className="flex flex-row font-medium">
-            <h1 className="text-2xl my-4 mx-4 mb-2">Description</h1>
-            <Select
-              options={languageOptions}
-              value={
-                selectedLanguage ||
-                languageOptions.find((option) => option.value === "en")
-              }
-              onChange={handleLanguageChange}
-              placeholder="Select language..."
-              className="ml-auto my-4 mx-4 mb-3"
-            />
-          </div>
-          <div>
-            <ReactQuill value={translateValue} readOnly={true} theme="bubble" />
-          </div>
-        </>
-      )}
-    </div>
+    <>
+      <div className="flex flex-row font-medium p-0">
+        <Select
+          options={languageOptions}
+          value={
+            selectedLanguage ||
+            languageOptions.find((option) => option.value === "en")
+          }
+          onChange={handleLanguageChange}
+          placeholder="Select language..."
+          className="ml-auto mx-0 mb-3"
+        />
+      </div>
+      <div
+        style={{
+          backgroundColor: "white",
+          borderRadius: "0.11rem",
+          padding: "0.3rem 0.5rem 0.5rem 0rem",
+          boxShadow: "0px 0px 20px 5px rgb(0 0 0 / 5%)",
+        }}
+      >
+        {showLanguage && (
+          <>
+            <div>
+              <ReactQuill
+                value={translateValue}
+                readOnly={true}
+                theme="bubble"
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 };

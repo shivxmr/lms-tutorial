@@ -179,12 +179,12 @@ model Questions {
   chapterId String
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
-  question String
+   question String? @db.Text
   question_type String
 
   questionId Submissions[]
 
-  @@unique([id]) 
+  @@unique([id])
 }
 
 model Submissions {
