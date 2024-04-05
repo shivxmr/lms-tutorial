@@ -11,8 +11,8 @@ RUN npm install --legacy-peer-deps
 
 RUN npx prisma generate
 
-#RUN npm run build
+RUN npm run build
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "npx prisma db push  && node ./scripts/seed.js && npm run dev"]
+CMD ["sh", "-c", "npx prisma db push  && node ./scripts/seed.js && npm run start"]
