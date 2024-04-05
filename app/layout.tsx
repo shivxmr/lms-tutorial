@@ -9,21 +9,19 @@ import { SessionProvider } from "next-auth/react";
 // const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <>
-      <html lang="en">
-        <body
-        // className={inter.className}
-        >
-          <ConfettiProvider />
-          <ToastProvider />
-          <SessionProvider>{children}</SessionProvider>
-        </body>
-      </html>
-    </>
-  );
+	return (
+		<html lang="en">
+			<body
+			// className={inter.className}
+			>
+				<ConfettiProvider />
+				<ToastProvider />
+				<SessionProvider>{children}</SessionProvider>
+			</body>
+		</html>
+	);
 }
