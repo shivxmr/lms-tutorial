@@ -169,7 +169,8 @@ const ChapterIdPage = async ({
                     </button>
                   </div>
                 </form>
-                {YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
+                {chapter.transcript}
+                {/* {YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
                   (res) => (
                     <>
                       {res.map((response) => (
@@ -196,7 +197,7 @@ const ChapterIdPage = async ({
                       ))}
                     </>
                   )
-                )}
+                )} */}
               </div>
             )}
             {!chapter.videoUrl ||
