@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
 	try {
 		const { id } = await req.json();
-		// Make sure 'id' is a valid string or throw an error if missing
 		if (!id || typeof id !== "string") {
 			throw new Error("Invalid 'id' provided");
 		}

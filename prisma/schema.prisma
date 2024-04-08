@@ -1,6 +1,6 @@
 datasource db {
   provider     = "mysql"
-  url          = "mysql://root:vik@127.0.0.1:3306/lms-tutorial"
+  url          = "mysql://root:vik@127.0.0.1:33061/lms-tutorial"
   relationMode = "prisma"
 }
 
@@ -119,6 +119,7 @@ model Chapter {
   position    Int
   isPublished Boolean @default(false)
   isFree      Boolean @default(false)
+  transcript  String? @db.Text
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
