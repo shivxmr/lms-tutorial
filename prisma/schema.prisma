@@ -1,6 +1,6 @@
 datasource db {
   provider     = "mysql"
-  url          = "mysql://root:mauFJcuf5dhRMQrjj@db:3306/lms"
+  url          = "mysql://root:vik@127.0.0.1:3306/lms-tutorial"
   relationMode = "prisma"
 }
 
