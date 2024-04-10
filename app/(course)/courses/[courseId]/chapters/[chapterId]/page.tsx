@@ -1,4 +1,3 @@
-import { YoutubeTranscript } from "youtube-transcript";
 import { redirect } from "next/navigation";
 import { File } from "lucide-react";
 import { getChapter } from "@/actions/get-chapter";
@@ -14,6 +13,9 @@ import { SubmissionForm } from "./_components/submission-form";
 import { getAttachments } from "@/actions/get-attachments";
 import PdfViewer from "@/components/pdfViewer";
 import { getLocalSession } from "@/actions/get-session";
+import { Button } from "@/components/ui/button";
+
+const { JSDOM } = require("jsdom");
 
 const ChapterIdPage = async ({
   params,
@@ -37,27 +39,20 @@ const ChapterIdPage = async ({
     return redirect("/");
   }
 
-  const getTime = (time: any) => {
-    const durationSec = time / 1000;
+  // const getTime = (time: any) => {
+  //   const durationSec = time / 1000;
 
-    // Extract hours, minutes, seconds, and milliseconds
-    const hours = Math.floor(durationSec / 3600);
-    const minutes = Math.floor((durationSec % 3600) / 60);
-    const seconds = Math.floor(durationSec % 60);
-    const milliseconds = Math.floor(durationSec % 1000);
+  //   // Extract hours, minutes, seconds, and milliseconds
+  //   const hours = Math.floor(durationSec / 3600);
+  //   const minutes = Math.floor((durationSec % 3600) / 60);
+  //   const seconds = Math.floor(durationSec % 60);
+  //   const milliseconds = Math.floor(durationSec % 1000);
+  //   const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+  //     .toString()
+  //     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-    // Format the time as HH:MM:SS.MMM
-    // const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-    //   .toString()
-    //   .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}.${milliseconds
-    //   .toString()
-    //   .padStart(3, "0")}`;
-    const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-
-    return formattedTime;
-  };
+  //   return formattedTime;
+  // };
 
   const { attachments } = await getAttachments({
     chapterId: params.chapterId,
@@ -67,6 +62,37 @@ const ChapterIdPage = async ({
 
   const isLocked = !chapter.isFree && !purchase;
   const completeOnEnd = !!purchase && !userProgress?.isCompleted;
+
+  const parseXML = (xmlString: string | null) => {
+    // if (typeof window !== "undefined") {
+    if (xmlString == null)
+      xmlString =
+        "<text start='0.919' dur='5.761'>hello everyone uh welcome to my code</text>";
+    console.log("entered parseXML");
+    const dom = new JSDOM(xmlString);
+    const parser = new dom.window.DOMParser();
+    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+    console.log("Parsed XML Document:", xmlDoc);
+    const textNodes = xmlDoc.getElementsByTagName("text");
+    const transcripts = [];
+
+    for (let i = 0; i < textNodes.length; i++) {
+      const textNode = textNodes[i];
+      const startTime = textNode.getAttribute("start");
+      const textContent = textNode.textContent;
+
+      transcripts.push({ startTime, textContent });
+    }
+    console.log("Transcript Text:", transcripts);
+
+    return transcripts;
+    // } else {
+    //   console.warn("DOMParser is not available");
+    // }
+  };
+
+  console.log("Chapter Transcript:", chapter.transcript);
+  const transcriptText = parseXML(chapter.transcript);
 
   return (
     <div className="pb-10">
@@ -169,7 +195,15 @@ const ChapterIdPage = async ({
                     </button>
                   </div>
                 </form>
-                {chapter.transcript}
+                {/* {transcriptText == null ? "it is null" : "not null"} */}
+                {/* {transcriptText} */}
+                {transcriptText &&
+                  transcriptText.map((item, index) => (
+                    <div key={index}>
+                      <p>{item.startTime}</p>
+                      <p>{item.textContent}</p>
+                    </div>
+                  ))}
                 {/* {YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
                   (res) => (
                     <>
