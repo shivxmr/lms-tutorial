@@ -39,20 +39,20 @@ const ChapterIdPage = async ({
     return redirect("/");
   }
 
-  // const getTime = (time: any) => {
-  //   const durationSec = time / 1000;
+  const getTime = (time: any) => {
+    const durationSec = parseFloat(time);
 
-  //   // Extract hours, minutes, seconds, and milliseconds
-  //   const hours = Math.floor(durationSec / 3600);
-  //   const minutes = Math.floor((durationSec % 3600) / 60);
-  //   const seconds = Math.floor(durationSec % 60);
-  //   const milliseconds = Math.floor(durationSec % 1000);
-  //   const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
-  //     .toString()
-  //     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    // Extract hours, minutes, seconds, and milliseconds
+    const hours = Math.floor(durationSec / 3600);
+    const minutes = Math.floor((durationSec % 3600) / 60);
+    const seconds = Math.floor(durationSec % 60);
+    // const milliseconds = Math.floor(durationSec % 1000);
+    const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
-  //   return formattedTime;
-  // };
+    return formattedTime;
+  };
 
   const { attachments } = await getAttachments({
     chapterId: params.chapterId,
@@ -93,6 +93,7 @@ const ChapterIdPage = async ({
 
   console.log("Chapter Transcript:", chapter.transcript);
   const transcriptText = parseXML(chapter.transcript);
+  const formattedTimes = transcriptText.map((item) => getTime(item.startTime));
 
   return (
     <div className="pb-10">
@@ -200,8 +201,28 @@ const ChapterIdPage = async ({
                 {transcriptText &&
                   transcriptText.map((item, index) => (
                     <div key={index}>
-                      <p>{item.startTime}</p>
-                      <p>{item.textContent}</p>
+                      <div
+                        className="flex border-solid border-y border-blue-50 hover:border-blue-500 transition-all ease-out"
+                        key={index}
+                      >
+                        <div
+                          style={{
+                            width: "70px",
+                            padding: "0.1rem 2.6rem 0.1rem 0.5rem",
+                          }}
+                        >
+                          <div className="text-gray font-medium font-bold">
+                            {formattedTimes[index]}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="pl-3 font-medium text-wrap">
+                            {item.textContent}
+                          </div>
+                        </div>
+                      </div>
+                      {/* <p>{item.startTime}</p>
+                      <p>{item.textContent}</p> */}
                     </div>
                   ))}
                 {/* {YoutubeTranscript.fetchTranscript(chapter.videoUrl || "").then(
