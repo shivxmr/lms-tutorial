@@ -1,3 +1,5 @@
+"use server";
+
 import { db } from "@/lib/db";
 import { Attachment, Chapter } from "@prisma/client";
 
@@ -6,7 +8,10 @@ interface GetChapterProps {
 	chapterId: string;
 }
 
-export const getAttachments = async ({ courseId, chapterId }: GetChapterProps) => {
+export const getAttachments = async ({
+	courseId,
+	chapterId,
+}: GetChapterProps) => {
 	try {
 		const attachments = await db.attachment.findMany({
 			where: {
