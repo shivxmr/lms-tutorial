@@ -27,7 +27,7 @@ export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
       <button
         type="button"
         className={cn(
-          "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
+          "flex items-center w-full gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
           isActive &&
             "text-sky-700 bg-sky-200/20 hover:bg-sky-200/20 hover:text-sky-700"
         )}
@@ -42,7 +42,7 @@ export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
         {/* Blue color vertical bar on sidebar denoting which route is selected*/}
         <div
           className={cn(
-            "ml-auto opacity-0 border-2 border-sky-700 h-full transition-all",
+            "ml-auto opacity-0 border-2 border-blue-500 h-12 transition-all",
             isActive && "opacity-100"
           )}
         />
