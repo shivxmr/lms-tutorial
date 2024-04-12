@@ -62,7 +62,7 @@ export const HoverEffect = ({
                   fill
                   className="object-cover"
                   alt={item.title}
-                  src={item.imageUrl}
+                  src={`courses/${item.imageUrl}`}
                 />
               </div>
               <div className="flex flex-col pt-2">

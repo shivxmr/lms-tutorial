@@ -1,3 +1,4 @@
+"use client";
 import { Category, Course } from "@prisma/client";
 
 import { CourseCard } from "@/components/course-card";
@@ -37,8 +38,6 @@ export const CoursesList = ({ items }: CoursesListProps) => {
 		</div>
 	);
 };
-
-
 
 // import { Category, Course } from "@prisma/client";
 
