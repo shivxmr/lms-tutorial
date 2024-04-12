@@ -1,10 +1,6 @@
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
-import { isTeacher } from "@/lib/teacher";
-
 import { SearchInput } from "./search-input";
-import { getLocalSession } from "@/actions/get-session";
 
 export const NavbarRoutes = async ({ pathname }: any) => {
 	const isTeacherPage = pathname?.startsWith("/teacher");

@@ -27,7 +27,7 @@ interface TitleFormProps {
 }
 
 const formSchema = z.object({
-	imageUrl: z.string().min(10, {
+	imageUrl: z.string().min(5, {
 		message: "URL is required",
 	}),
 });

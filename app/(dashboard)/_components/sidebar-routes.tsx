@@ -7,11 +7,13 @@ import {
 	FolderOpenDot,
 	Layout,
 	List,
+	LogOut,
 	Tornado,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
+import { Button } from "@/components/ui/button";
 
 const guestRoutes = [
 	{
@@ -39,6 +41,11 @@ const guestRoutes = [
 		label: "Projects",
 		href: "/projects",
 	},
+	{
+		icon: LogOut,
+		label: "Logout",
+		href: "/logout",
+	},
 ];
 
 const teacherRoutes = [
@@ -62,7 +69,7 @@ export const SidebarRoutes = () => {
 	const routes = isTeacherPage ? teacherRoutes : guestRoutes;
 
 	return (
-		<div className="flex flex-col w-full">
+		<div className="flex h-full flex-col  w-full">
 			{routes.map((route) => (
 				<SidebarItem
 					key={route.href}

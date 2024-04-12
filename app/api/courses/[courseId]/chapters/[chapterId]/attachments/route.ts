@@ -31,7 +31,7 @@ export async function POST(
 			},
 		});
 
-		return NextResponse.json({ Message: "Success", status: 201 });
+		return NextResponse.json({ Message: "Success", status: 200 });
 	} catch (error) {
 		console.log("Error occured ", error);
 		return NextResponse.json({ Message: "Failed", status: 500 });
