@@ -1,0 +1,50 @@
+---
+version: "2"
+services:
+  frontend:
+    image: akarx/lms-frontend:latest
+    container_name: lms-frontend
+    restart: always
+    ports:
+      - 7010:3000
+    depends_on:
+      - db
+      - prisma-studio
+    links:
+      - db
+    environment:
+      - http_proxy=http://proxy01.iind.intel.com:911/
+      - https_proxy=http://proxy01.iind.intel.com:912/
+      - HTTP_PROXY=http://proxy01.iind.intel.com:911/
+      - HTTPS_PROXY=http://proxy01.iind.intel.com:912/
+
+  prisma-studio:
+    links:
+      - db
+    depends_on:
+      - db
+    image: akarx/lms-prisma-studio:latest
+    container_name: lms-prisma-studio
+    restart: unless-stopped
+    ports:
+      - "5555:5555"
+    volumes:
+      - ./prisma:/app/prisma
+
+  db:
+    image: akarx/lms-db:latest
+    container_name: lms-db
+    cap_add:
+      - SYS_NICE
+    restart: always
+    environment:
+      - MYSQL_DATABASE=lms
+      - MYSQL_ROOT_PASSWORD=mauFJcuf5dhRMQrjj
+    ports:
+      - "3306:3306"
+    volumes:
+      - lms-db:/var/lib/mysql
+
+volumes:
+  lms-db:
+    driver: local
