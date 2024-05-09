@@ -300,7 +300,7 @@ const ChapterIdPage = async ({
                         href={`/pdf/${attachment.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-black-500 hover:underline text-pretty items-center justify-center"
+                        className="text-black-50  0 hover:underline text-pretty items-center justify-center"
                       >
                         <div className="m-2 flex flex-col items-center justify-center text-wrap">
                           <Image
