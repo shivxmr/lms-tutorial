@@ -5,7 +5,14 @@ import ProjectImage from "/projects.png";
 const componentsPage = () => {
   return (
     <div className="relative w-full">
-      <img style={{ position: "relative" }} src={"/components.png"} alt="" />
+      <img
+        style={{
+          position: "relative",
+          width: "100%",
+        }}
+        src={"/components.png"}
+        alt=""
+      />
     </div>
   );
 };
