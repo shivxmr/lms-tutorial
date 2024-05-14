@@ -4,11 +4,11 @@ services:
   frontend:
     build:
       context: ./
-      args:
-        http_proxy: http://proxy01.iind.intel.com:911/
-        https_proxy: http://proxy01.iind.intel.com:912/
-        HTTP_PROXY: http://proxy01.iind.intel.com:911/
-        HTTPS_PROXY: http://proxy01.iind.intel.com:912/
+      # args:
+      #   http_proxy: http://proxy01.iind.intel.com:911/
+      #   https_proxy: http://proxy01.iind.intel.com:912/
+      #   HTTP_PROXY: http://proxy01.iind.intel.com:911/
+      #   HTTPS_PROXY: http://proxy01.iind.intel.com:912/
     container_name: lms
     restart: always
     ports:
@@ -18,11 +18,11 @@ services:
       - prisma-studio
     links:
       - db
-    environment:
-      - http_proxy=http://proxy01.iind.intel.com:911/
-      - https_proxy=http://proxy01.iind.intel.com:912/
-      - HTTP_PROXY=http://proxy01.iind.intel.com:911/
-      - HTTPS_PROXY=http://proxy01.iind.intel.com:912/
+    # environment:
+    #   - http_proxy=http://proxy01.iind.intel.com:911/
+    #   - https_proxy=http://proxy01.iind.intel.com:912/
+    #   - HTTP_PROXY=http://proxy01.iind.intel.com:911/
+    #   - HTTPS_PROXY=http://proxy01.iind.intel.com:912/
     volumes:
       - .:/app
       - /app/node_modules
@@ -36,11 +36,11 @@ services:
     build:
       context: ./docker/prismaStudio
       dockerfile: Dockerfile
-      args:
-        http_proxy: http://proxy01.iind.intel.com:911/
-        https_proxy: http://proxy01.iind.intel.com:912/
-        HTTP_PROXY: http://proxy01.iind.intel.com:911/
-        HTTPS_PROXY: http://proxy01.iind.intel.com:912/
+      # args:
+      #   http_proxy: http://proxy01.iind.intel.com:911/
+      #   https_proxy: http://proxy01.iind.intel.com:912/
+      #   HTTP_PROXY: http://proxy01.iind.intel.com:911/
+      #   HTTPS_PROXY: http://proxy01.iind.intel.com:912/
     container_name: prisma-studio
     restart: unless-stopped
     ports:
@@ -52,11 +52,11 @@ services:
     build:
       context: ./docker/mysql
       dockerfile: Dockerfile
-      args:
-        http_proxy: http://proxy01.iind.intel.com:911/
-        https_proxy: http://proxy01.iind.intel.com:912/
-        HTTP_PROXY: http://proxy01.iind.intel.com:911/
-        HTTPS_PROXY: http://proxy01.iind.intel.com:912/
+      # args:
+      #   http_proxy: http://proxy01.iind.intel.com:911/
+      #   https_proxy: http://proxy01.iind.intel.com:912/
+      #   HTTP_PROXY: http://proxy01.iind.intel.com:911/
+      #   HTTPS_PROXY: http://proxy01.iind.intel.com:912/
     cap_add:
       - SYS_NICE
     restart: always
