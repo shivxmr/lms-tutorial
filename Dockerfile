@@ -13,6 +13,8 @@ ADD . /usr/src/app/
 
 # RUN npm install --legacy-peer-deps
 
+COPY ./docker/prismaStudio/schema.prisma /usr/src/app/prisma/schema.prisma
+
 RUN npx prisma generate
 
 RUN npm run build
