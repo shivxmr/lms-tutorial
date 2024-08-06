@@ -42,6 +42,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 *Now backup your data to your local repository:*
 `sudo docker cp 1f55de9398e2:/all_databases.sql /home/staging/lms-tutorial/db/ ` The same can be used opposite to copying th dump to the mysql database bash
 
+- If on 6448H server, use
+`sudo docker cp ddecd6a2e9e8:/all_databases.sql /home/akarx/lms-tutorial/docker/mysql/db`
+
 *To backup the code*
 `mysql  database_name < file.sql`
 
